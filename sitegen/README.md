@@ -37,12 +37,13 @@ python3 sitegen/publish.py          # publish new/changed files to GitHub via th
 |---|---|
 | `/` | `README.md` |
 | `/books/` | `booklist.md` |
-| `/syllabus/`, `/syllabus/prelims/`, `/syllabus/mains/` | generated index + `syllabus/*.md` |
-| `/notes/` + `/notes/<name>/` (10 notes) | generated index + `notes/*.md` |
+| `/syllabus/`, `/syllabus/prelims/`, `/syllabus/mains/`, `/syllabus/prelims-blueprint/` | generated index + `syllabus/*.md` |
+| `/notes/` + `/notes/<name>/` (11 notes) | generated index + `notes/*.md` |
 | `/bihar-gk-rapid-fire/` | `bihar-gk-rapid-fire.md` |
 | `/pyq/`, `/pyq/strategy/` | generated index + `pyq/strategy.md` |
 | `/pyq-analysis/` | `pyq-analysis/index.html` (verbatim) |
-| `/strategy/`, `/strategy/one-attempt-plan/`, `/strategy/memorization/` | generated index + `strategy/*.md` |
+| `/strategy/`, `/strategy/<page>/` (8 pages) | generated index + `strategy/*.md` |
+| `/assets/svg/*.svg` | diagrams (copied from `sitegen/assets/`) |
 
 ## Conventions
 

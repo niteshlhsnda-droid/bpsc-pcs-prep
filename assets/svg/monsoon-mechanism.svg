@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Southwest monsoon mechanism</title>
+<desc id="d">Side-view schematic of the Indian summer monsoon: intense heating over land creates low pressure, moist winds blow in from the high-pressure ocean, rise over the land and the Himalayas, and give rain.</desc>
+<defs>
+<marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1565c0"/></marker>
+</defs>
+<text x="320" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">The Southwest Monsoon — How It Works</text>
+<g font-family="system-ui,sans-serif" font-size="13">
+
+<rect x="0" y="300" width="250" height="150" fill="#cfe3f7"/>
+<text x="125" y="430" text-anchor="middle" fill="#1565c0" font-weight="700">INDIAN OCEAN</text>
+<text x="125" y="450" text-anchor="middle" fill="#1565c0" font-size="12">high pressure · cool air</text>
+
+<polygon points="250,450 640,450 640,300 470,300 430,220 330,220 290,300" fill="#e8d9b8"/>
+<polygon points="430,220 470,300 560,300 520,220" fill="#b9a678"/>
+<polygon points="520,220 560,300 640,300 600,220" fill="#9c8a5e"/>
+<text x="445" y="290" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">LAND</text>
+<text x="445" y="310" text-anchor="middle" fill="#fff" font-size="11">low pressure (heated)</text>
+
+<g stroke="#1565c0" stroke-width="3" fill="none" marker-end="url(#ar3)">
+<path d="M60,330 C160,330 220,300 300,280"/>
+<path d="M60,370 C170,370 240,340 310,310"/>
+</g>
+<text x="150" y="315" text-anchor="middle" fill="#1565c0" font-size="12" font-weight="600">moist SW winds</text>
+
+<g stroke="#1565c0" stroke-width="3" fill="none" marker-end="url(#ar3)">
+<path d="M310,280 C330,240 350,220 370,200"/>
+<path d="M330,300 C360,260 390,240 420,225"/>
+</g>
+<text x="395" y="180" text-anchor="middle" fill="#1565c0" font-size="12" font-weight="600">air rises → cools → condenses</text>
+
+<g fill="#1565c0">
+<circle cx="180" cy="200" r="4"/><circle cx="220" cy="230" r="4"/><circle cx="260" cy="200" r="4"/><circle cx="300" cy="240" r="4"/><circle cx="350" cy="205" r="4"/><circle cx="400" cy="245" r="4"/>
+<path d="M176,212 l8,14 M216,242 l8,14 M256,212 l8,14 M296,252 l8,14 M346,217 l8,14 M396,257 l8,14" stroke="#1565c0" stroke-width="2.5"/>
+</g>
+<text x="290" y="150" text-anchor="middle" fill="#1e2a44" font-size="12" font-weight="600">RAIN over the subcontinent</text>
+
+<polygon points="560,220 640,220 640,150 600,120 560,150" fill="#7d6f52"/>
+<text x="600" y="245" text-anchor="middle" fill="#3a3325" font-size="12" font-weight="700">HIMALAYAS</text>
+<text x="600" y="262" text-anchor="middle" fill="#3a3325" font-size="11.5">block the winds →</text>
+<text x="600" y="278" text-anchor="middle" fill="#3a3325" font-size="11.5">heavy orographic rain</text>
+
+<rect x="20" y="60" width="600" height="70" rx="10" fill="#fff7e6" stroke="#c98a12"/>
+<text x="320" y="84" text-anchor="middle" fill="#8a5c00" font-weight="700" font-size="13.5">Two branches to name in answers</text>
+<text x="320" y="108" text-anchor="middle" fill="#8a5c00" font-size="13"><tspan font-weight="700">Arabian Sea branch</tspan> (hits Western Ghats first) · <tspan font-weight="700">Bay of Bengal branch</tspan> (funnels up the Ganga plain → Bihar)</text>
+<text x="320" y="462" text-anchor="middle" fill="#777" font-size="12">Key exam words: ITCZ shifts north · differential heating · onset ~1 June (Kerala) · retreat from October</text>
+</g>
+</svg>

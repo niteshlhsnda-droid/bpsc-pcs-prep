@@ -63,8 +63,24 @@ GENERATED = [
     "strategy/index.html",
     "strategy/one-attempt-plan/index.html",
     "strategy/memorization/index.html",
+    "strategy/mains-answer-writing/index.html",
+    "strategy/mains-gs1/index.html",
+    "strategy/mains-gs2/index.html",
+    "strategy/mains-hindi-essay/index.html",
+    "strategy/topper-methods/index.html",
+    "strategy/prelims-vs-mains/index.html",
+    "syllabus/prelims-blueprint/index.html",
+    "notes/prelims-rapid-fire/index.html",
 ]
-SOURCES = ["booklist.md", "README.md", "home.md"]
+SOURCES = ["booklist.md", "README.md", "home.md",
+           "syllabus/prelims-blueprint.md",
+           "strategy/mains-answer-writing.md",
+           "strategy/mains-gs1.md",
+           "strategy/mains-gs2.md",
+           "strategy/mains-hindi-essay.md",
+           "strategy/topper-methods.md",
+           "strategy/prelims-vs-mains.md",
+           "notes/prelims-rapid-fire.md"]
 TOOLING = [
     "sitegen/build.py",
     "sitegen/publish.py",
@@ -91,8 +107,20 @@ def api(method: str, path: str, data: dict | None = None):
         raise RuntimeError(f"GitHub API {method} {path} -> HTTP {exc.code}: {raw[:500]}")
 
 
+def asset_files() -> list:
+    """SVG diagrams etc. under sitegen/assets, sorted deterministically."""
+    out = []
+    base = os.path.join(REPO, "sitegen", "assets")
+    for dirpath, dirnames, filenames in os.walk(base):
+        dirnames.sort()
+        for fn in sorted(filenames):
+            rel = os.path.relpath(os.path.join(dirpath, fn), base).replace(os.sep, "/")
+            out.append("assets/" + rel)
+    return out
+
+
 def main() -> int:
-    files = GENERATED + SOURCES + TOOLING
+    files = GENERATED + SOURCES + TOOLING + asset_files()
     missing = [f for f in files if not os.path.exists(os.path.join(REPO, f))]
     if missing:
         print("Missing files (run sitegen/build.py first):", missing)
@@ -122,8 +150,9 @@ def main() -> int:
     print(f"tree {tree['sha'][:7]}")
 
     commit = api("post", f"{base}/git/commits", {
-        "message": ("Homepage redesign: clutter-free hero + Learn/Practice/Plan groups, "
-                    "slimmer nav, breadcrumbs site-wide (build.py + templates + home.md)"),
+        "message": ("Prelims + Mains prep section: topic-wise prelims blueprint, mains answer-writing "
+                    "frameworks, GS-I/GS-II topic guides with SVG diagrams, Hindi+Essay, topper methods, "
+                    "prelims-vs-mains, rapid-fire one-liners (build.py image/asset support + tooling)"),
         "tree": tree["sha"],
         "parents": [head_sha],
     })

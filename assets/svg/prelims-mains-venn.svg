@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Prelims vs Mains overlap</title>
+<desc id="d">Venn diagram showing what belongs to Prelims only, Mains only, and the shared overlap of integrated preparation.</desc>
+<text x="350" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">Prelims vs Mains — One Preparation</text>
+<g font-family="system-ui,sans-serif" font-size="12.5">
+<circle cx="250" cy="220" r="150" fill="#eef3ff" stroke="#1e2a44" stroke-width="2.5" opacity="0.85"/>
+<circle cx="450" cy="220" r="150" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2.5" opacity="0.85"/>
+<text x="150" y="95" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="15">PRELIMS</text>
+<text x="150" y="115" text-anchor="middle" fill="#555">150 MCQs · screening</text>
+<text x="550" y="95" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="15">MAINS</text>
+<text x="550" y="115" text-anchor="middle" fill="#555">descriptive · merit (1050)</text>
+
+<g fill="#1e2a44">
+<text x="150" y="170">• facts, one-liners</text>
+<text x="150" y="194">• 48 sec/question</text>
+<text x="150" y="218">• elimination skill</text>
+<text x="150" y="242">• ⅓ negative marking</text>
+<text x="150" y="266">• breadth over depth</text>
+</g>
+<g fill="#5a4a2f">
+<text x="500" y="170">• analysis, opinions</text>
+<text x="500" y="194">• intro-body-conclusion</text>
+<text x="500" y="218">• diagrams, data, articles</text>
+<text x="500" y="242">• Bihar examples always</text>
+<text x="500" y="266">• depth over breadth</text>
+</g>
+<rect x="292" y="150" width="116" height="150" rx="10" fill="none"/>
+<g fill="#1e2a44" text-anchor="middle" font-weight="600">
+<text x="350" y="180">THE OVERLAP</text>
+<text x="350" y="202">• same NCERT base</text>
+<text x="350" y="224">• same current affairs</text>
+<text x="350" y="246">• same Bihar facts</text>
+<text x="350" y="268">• same PYQ themes</text>
+</g>
+
+<rect x="40" y="400" width="620" height="52" rx="8" fill="#1e2a44"/>
+<text x="350" y="431" text-anchor="middle" fill="#ffd97a" font-size="13" font-weight="600">Prepare once, revise twice: learn the fact (prelims), then learn to argue it (mains)</text>
+</g>
+</svg>

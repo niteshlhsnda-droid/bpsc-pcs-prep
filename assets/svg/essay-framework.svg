@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 520" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Essay writing framework</title>
+<desc id="d">Framework for the 150-mark essay: the six-dimension lens, the three-part structure, and the time plan for a 3-hour essay paper.</desc>
+<text x="340" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">The Essay Framework (150 marks)</text>
+<g font-family="system-ui,sans-serif" font-size="13">
+<text x="340" y="66" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="14">Six dimensions — view every topic through all six</text>
+<g font-size="12.5">
+<rect x="40" y="80" width="180" height="40" rx="20" fill="#1e2a44"/><text x="130" y="105" text-anchor="middle" fill="#fff" font-weight="600">Historical</text>
+<rect x="250" y="80" width="180" height="40" rx="20" fill="#2c4a7c"/><text x="340" y="105" text-anchor="middle" fill="#fff" font-weight="600">Economic</text>
+<rect x="460" y="80" width="180" height="40" rx="20" fill="#4a6fa5"/><text x="550" y="105" text-anchor="middle" fill="#fff" font-weight="600">Social</text>
+<rect x="40" y="132" width="180" height="40" rx="20" fill="#f59e0b"/><text x="130" y="157" text-anchor="middle" fill="#1e2a44" font-weight="600">Political</text>
+<rect x="250" y="132" width="180" height="40" rx="20" fill="#c98a12"/><text x="340" y="157" text-anchor="middle" fill="#fff" font-weight="600">Environmental</text>
+<rect x="460" y="132" width="180" height="40" rx="20" fill="#8a5c00"/><text x="550" y="157" text-anchor="middle" fill="#fff" font-weight="600">Ethical / Bihar</text>
+</g>
+
+<text x="340" y="210" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="14">Structure: hook → dimensions → verdict</text>
+<rect x="40" y="224" width="190" height="120" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2"/>
+<text x="135" y="250" text-anchor="middle" fill="#1e2a44" font-weight="700">INTRO (~15%)</text>
+<g font-size="12.5" fill="#5a4a2f">
+<text x="135" y="274" text-anchor="middle">quote · anecdote ·</text>
+<text x="135" y="294" text-anchor="middle">striking statistic ·</text>
+<text x="135" y="314" text-anchor="middle">define the key term</text>
+</g>
+<rect x="245" y="224" width="190" height="120" rx="10" fill="#ffffff" stroke="#1e2a44" stroke-width="2"/>
+<text x="340" y="250" text-anchor="middle" fill="#1e2a44" font-weight="700">BODY (~70%)</text>
+<g font-size="12.5" fill="#333">
+<text x="340" y="274" text-anchor="middle">one paragraph per</text>
+<text x="340" y="294" text-anchor="middle">dimension, 4–6 heads,</text>
+<text x="340" y="314" text-anchor="middle">data + example each</text>
+</g>
+<rect x="450" y="224" width="190" height="120" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="545" y="250" text-anchor="middle" fill="#1b3a1f" font-weight="700">CONCLUSION (~15%)</text>
+<g font-size="12.5" fill="#2e5b34">
+<text x="545" y="274" text-anchor="middle">balanced verdict,</text>
+<text x="545" y="294" text-anchor="middle">way forward, quote</text>
+<text x="545" y="314" text-anchor="middle">echo the intro</text>
+</g>
+
+<rect x="40" y="368" width="600" height="46" rx="8" fill="#1e2a44"/>
+<text x="340" y="396" text-anchor="middle" fill="#ffd97a" font-size="13" font-weight="600">One essay/week from month 4 · 1000–1200 words · one Bihar example minimum per essay</text>
+<text x="340" y="446" text-anchor="middle" fill="#777" font-size="12">The philosophical quote essay is the trap: decode it into the six dimensions before writing a word.</text>
+<text x="340" y="478" text-anchor="middle" fill="#777" font-size="12">Model: "Technology: servant or master?" → history (industrial rev.) → economy (jobs) → society → ethics → Bihar (digital divide)</text>
+</g>
+</svg>

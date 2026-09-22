@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Three approaches to measuring GDP</title>
+<desc id="d">Diagram of the three equivalent approaches to GDP: production (value added), expenditure (C+I+G+NX) and income (wages+rent+interest+profit), with sector-share bars.</desc>
+<text x="340" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">GDP — Three Approaches, One Number</text>
+<text x="340" y="56" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12.5" fill="#777">all three must equal the same total — a favourite mains "explain" question</text>
+<g font-family="system-ui,sans-serif" font-size="13">
+<rect x="40" y="80" width="180" height="120" rx="10" fill="#1e2a44"/>
+<text x="130" y="110" text-anchor="middle" fill="#fff" font-weight="700" font-size="14">Production</text>
+<text x="130" y="132" text-anchor="middle" fill="#cdd6ea" font-size="12.5">value added at</text>
+<text x="130" y="150" text-anchor="middle" fill="#cdd6ea" font-size="12.5">each stage − inputs</text>
+<text x="130" y="174" text-anchor="middle" fill="#ffd97a" font-size="12.5">kills double-counting</text>
+
+<rect x="250" y="80" width="180" height="120" rx="10" fill="#ffffff" stroke="#1e2a44" stroke-width="2"/>
+<text x="340" y="110" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="14">Expenditure</text>
+<text x="340" y="134" text-anchor="middle" fill="#1e2a44" font-size="15" font-weight="700">C + I + G + (X − M)</text>
+<text x="340" y="156" text-anchor="middle" fill="#555" font-size="12.5">consumption · investment</text>
+<text x="340" y="174" text-anchor="middle" fill="#555" font-size="12.5">govt spending · net exports</text>
+
+<rect x="460" y="80" width="180" height="120" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2"/>
+<text x="550" y="110" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="14">Income</text>
+<text x="550" y="134" text-anchor="middle" fill="#5a4a2f" font-size="12.5">wages + rent + interest</text>
+<text x="550" y="156" text-anchor="middle" fill="#5a4a2f" font-size="12.5">+ profit + mixed income</text>
+<text x="550" y="178" text-anchor="middle" fill="#8a5c00" font-size="12.5">"who earned it?"</text>
+
+<text x="340" y="240" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="14">India's sector shares (approx., recent GVA)</text>
+<g font-size="12.5">
+<text x="40" y="268" fill="#1e2a44" font-weight="600">Agriculture ≈ 17%</text>
+<rect x="190" y="256" width="120" height="18" rx="4" fill="#2e7d32"/>
+<text x="40" y="298" fill="#1e2a44" font-weight="600">Industry ≈ 27%</text>
+<rect x="190" y="286" width="190" height="18" rx="4" fill="#f59e0b"/>
+<text x="40" y="328" fill="#1e2a44" font-weight="600">Services ≈ 56%</text>
+<rect x="190" y="316" width="390" height="18" rx="4" fill="#1e2a44"/>
+</g>
+
+<rect x="40" y="360" width="600" height="96" rx="10" fill="#fff7e6" stroke="#c98a12"/>
+<text x="340" y="386" text-anchor="middle" fill="#8a5c00" font-weight="700" font-size="13.5">The Bihar twist to add in answers</text>
+<text x="340" y="410" text-anchor="middle" fill="#8a5c00" font-size="13">Bihar's GVA is agriculture-heavy (well above the national 17%) — so floods, MSP and monsoon</text>
+<text x="340" y="432" text-anchor="middle" fill="#8a5c00" font-size="13">are not "agriculture news" here, they are GDP news. State the sector shares, then land the Bihar point.</text>
+</g>
+</svg>

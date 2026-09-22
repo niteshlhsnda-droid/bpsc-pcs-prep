@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 520" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Floods in Bihar: causes, effects, mitigation</title>
+<desc id="d">Mind-map of Bihar floods: Himalayan-river causes, human amplifiers, economic and social effects, and a three-layer mitigation strategy.</desc>
+<text x="350" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">Floods in Bihar — Answer Mind-Map</text>
+<text x="350" y="56" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12.5" fill="#777">draw one branch per body paragraph — the diagram IS the answer plan</text>
+<g font-family="system-ui,sans-serif" font-size="12.5">
+<rect x="270" y="76" width="160" height="56" rx="28" fill="#1e2a44"/>
+<text x="350" y="100" text-anchor="middle" fill="#fff" font-weight="700" font-size="14">BIHAR FLOODS</text>
+<text x="350" y="120" text-anchor="middle" fill="#cdd6ea" font-size="12">73% of the state flood-prone</text>
+
+<g stroke="#1e2a44" stroke-width="2">
+<line x1="310" y1="105" x2="150" y2="170"/>
+<line x1="350" y1="132" x2="350" y2="170"/>
+<line x1="390" y1="105" x2="550" y2="170"/>
+</g>
+
+<rect x="40" y="170" width="220" height="190" rx="10" fill="#eef3ff" stroke="#1e2a44" stroke-width="1.5"/>
+<text x="150" y="196" text-anchor="middle" fill="#1e2a44" font-weight="700">CAUSES</text>
+<g fill="#333">
+<text x="58" y="222">• Himalayan rivers: Kosi, Gandak,</text>
+<text x="58" y="242">  Bagmati — high silt, shifting course</text>
+<text x="58" y="262">• monsoon concentrated in 3–4 months</text>
+<text x="58" y="282">• embankments that trap water</text>
+<text x="58" y="302">• deforestation in Nepal catchment</text>
+<text x="58" y="322">• drainage congestion, encroachment</text>
+<text x="58" y="342">  of natural channels (chaurs)</text>
+</g>
+
+<rect x="280" y="170" width="140" height="190" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="350" y="196" text-anchor="middle" fill="#1e2a44" font-weight="700">EFFECTS</text>
+<g fill="#333">
+<text x="296" y="222">• crop loss,</text>
+<text x="296" y="242">  kharif wiped out</text>
+<text x="296" y="262">• distress migration</text>
+<text x="296" y="282">• water-borne disease</text>
+<text x="296" y="302">• infrastructure damage</text>
+<text x="296" y="322">• poverty trap deepens</text>
+</g>
+
+<rect x="440" y="170" width="220" height="190" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+<text x="550" y="196" text-anchor="middle" fill="#1b3a1f" font-weight="700">MITIGATION (3 layers)</text>
+<g fill="#333">
+<text x="458" y="222">1. Structural: embankments,</text>
+<text x="458" y="242">   reservoirs, drainage</text>
+<text x="458" y="262">2. Non-structural: early warning,</text>
+<text x="458" y="282">   flood-plain zoning, insurance</text>
+<text x="458" y="302">3. Cooperative: Kosi treaty review</text>
+<text x="458" y="322">   with Nepal; data sharing</text>
+<text x="458" y="342">• Bihar SDRF + community drills</text>
+</g>
+
+<rect x="40" y="384" width="620" height="52" rx="8" fill="#1e2a44"/>
+<text x="350" y="414" text-anchor="middle" fill="#ffd97a" font-size="13" font-weight="600">Conclusion line: "living with floods" — Japan/Netherlands-style adaptation beats fighting the river</text>
+<text x="350" y="466" text-anchor="middle" fill="#777" font-size="12">One mind-map, one answer: causes → effects → 3-layer mitigation. Reuse for disaster-management questions.</text>
+</g>
+</svg>

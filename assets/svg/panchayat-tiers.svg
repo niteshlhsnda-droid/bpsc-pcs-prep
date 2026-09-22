@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 430" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Three-tier Panchayati Raj</title>
+<desc id="d">Pyramid diagram of the three-tier Panchayati Raj system: Zila Parishad at district level, Panchayat Samiti at block level, Gram Panchayat at village level, with Gram Sabha as the foundation.</desc>
+<defs>
+<marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1e2a44"/></marker>
+</defs>
+<text x="280" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">Panchayati Raj — Three Tiers</text>
+<g font-family="system-ui,sans-serif" font-size="14" text-anchor="middle">
+<rect x="130" y="56" width="300" height="62" rx="10" fill="#1e2a44"/>
+<text x="280" y="82" fill="#fff" font-weight="700">Zila Parishad</text>
+<text x="280" y="102" fill="#cdd6ea" font-size="12.5">district level · apex body</text>
+<line x1="280" y1="118" x2="280" y2="140" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar4)"/>
+
+<rect x="110" y="140" width="340" height="62" rx="10" fill="#2c4a7c"/>
+<text x="280" y="166" fill="#fff" font-weight="700">Panchayat Samiti</text>
+<text x="280" y="186" fill="#cdd6ea" font-size="12.5">block / intermediate level</text>
+<line x1="280" y1="202" x2="280" y2="224" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar4)"/>
+
+<rect x="90" y="224" width="380" height="62" rx="10" fill="#4a6fa5"/>
+<text x="280" y="250" fill="#fff" font-weight="700">Gram Panchayat</text>
+<text x="280" y="270" fill="#dbe6f7" font-size="12.5">village level · executive of the village</text>
+<line x1="280" y1="286" x2="280" y2="308" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar4)"/>
+
+<rect x="70" y="308" width="420" height="56" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2"/>
+<text x="280" y="330" fill="#1e2a44" font-weight="700">Gram Sabha — the foundation</text>
+<text x="280" y="350" fill="#5a4a2f" font-size="12.5">all registered voters of the village; must meet ≥ 2 times/year</text>
+
+<rect x="70" y="378" width="420" height="36" rx="8" fill="#fff7e6" stroke="#c98a12"/>
+<text x="280" y="401" fill="#8a5c00" font-size="13"><tspan font-weight="700">Bihar edge:</tspan> 50% reservation for women — first state in India</text>
+</g>
+</svg>

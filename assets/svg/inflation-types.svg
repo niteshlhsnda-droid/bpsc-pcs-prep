@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Demand-pull vs cost-push inflation</title>
+<desc id="d">Comparison diagram of demand-pull inflation (too much money chasing too few goods) and cost-push inflation (rising input costs), with examples and policy responses.</desc>
+<text x="340" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">Inflation — Demand-Pull vs Cost-Push</text>
+<g font-family="system-ui,sans-serif" font-size="13">
+<rect x="30" y="56" width="300" height="330" rx="10" fill="#ffffff" stroke="#1e2a44" stroke-width="2"/>
+<text x="180" y="88" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="15">Demand-Pull</text>
+<text x="180" y="110" text-anchor="middle" fill="#5a4a2f" font-size="12.5">"too much money chasing too few goods"</text>
+<g font-size="12.5" fill="#333">
+<text x="55" y="142">Causes:</text>
+<text x="55" y="164">• fiscal deficit ↑ (govt spending)</text>
+<text x="55" y="186">• cheap credit, low interest rates</text>
+<text x="55" y="208">• rising wages, consumption boom</text>
+<text x="55" y="240">Cure: RBI raises repo rate,</text>
+<text x="55" y="262">govt cuts deficit spending</text>
+</g>
+<rect x="60" y="290" width="240" height="66" rx="8" fill="#eef3ff" stroke="#1e2a44"/>
+<text x="180" y="314" text-anchor="middle" fill="#1e2a44" font-weight="600" font-size="12.5">Example answer hook</text>
+<text x="180" y="336" text-anchor="middle" fill="#1e2a44" font-size="12.5">MSP hikes → rural demand → food inflation</text>
+
+<rect x="350" y="56" width="300" height="330" rx="10" fill="#ffffff" stroke="#f59e0b" stroke-width="2"/>
+<text x="500" y="88" text-anchor="middle" fill="#1e2a44" font-weight="700" font-size="15">Cost-Push</text>
+<text x="500" y="110" text-anchor="middle" fill="#5a4a2f" font-size="12.5">"rising input costs push prices up"</text>
+<g font-size="12.5" fill="#333">
+<text x="375" y="142">Causes:</text>
+<text x="375" y="164">• crude oil price shocks</text>
+<text x="375" y="186">• supply-chain disruption</text>
+<text x="375" y="208">• crop failure (food supply)</text>
+<text x="375" y="240">Cure: supply-side — buffer stocks,</text>
+<text x="375" y="262">imports, logistics; NOT rate hikes</text>
+</g>
+<rect x="380" y="290" width="240" height="66" rx="8" fill="#fdf0d5" stroke="#f59e0b"/>
+<text x="500" y="314" text-anchor="middle" fill="#1e2a44" font-weight="600" font-size="12.5">Example answer hook</text>
+<text x="500" y="336" text-anchor="middle" fill="#1e2a44" font-size="12.5">2022 oil shock → transport costs → WPI ↑</text>
+
+<rect x="60" y="404" width="560" height="48" rx="8" fill="#1e2a44"/>
+<text x="340" y="433" text-anchor="middle" fill="#ffd97a" font-size="13" font-weight="600">Exam move: name the type, give ONE Bihar link (e.g. diesel prices → farm costs), then state the policy cure</text>
+</g>
+</svg>

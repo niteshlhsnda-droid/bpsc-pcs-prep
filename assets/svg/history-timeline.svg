@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Indian history timeline with Bihar anchors</title>
+<desc id="d">Horizontal timeline from the Indus Valley Civilization to 1947, with Bihar-linked events highlighted in saffron.</desc>
+<text x="350" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">Indian History — One-Line Timeline</text>
+<text x="350" y="54" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12.5" fill="#8a5c00">saffron nodes = Bihar anchors (BPSC's favourite marks)</text>
+<g font-family="system-ui,sans-serif" font-size="12.5">
+<line x1="40" y1="200" x2="660" y2="200" stroke="#1e2a44" stroke-width="4"/>
+<polygon points="660,200 646,192 646,208" fill="#1e2a44"/>
+
+<g text-anchor="middle">
+<g><circle cx="80" cy="200" r="9" fill="#1e2a44"/><text x="80" y="176" fill="#1e2a44" font-weight="700">IVC</text><text x="80" y="232" fill="#555">c. 2600–1900 BCE</text><text x="80" y="248" fill="#555">Harappa, Lothal</text></g>
+<g><circle cx="170" cy="200" r="9" fill="#f59e0b" stroke="#8a5c00" stroke-width="2"/><text x="170" y="176" fill="#8a5c00" font-weight="700">Mahajanapadas</text><text x="170" y="232" fill="#555">Magadh rises;</text><text x="170" y="248" fill="#555">Buddha, Mahavira</text></g>
+<g><circle cx="260" cy="200" r="9" fill="#f59e0b" stroke="#8a5c00" stroke-width="2"/><text x="260" y="176" fill="#8a5c00" font-weight="700">Mauryas</text><text x="260" y="232" fill="#555">321–185 BCE;</text><text x="260" y="248" fill="#555">Pataliputra, Ashoka</text></g>
+<g><circle cx="340" cy="200" r="9" fill="#f59e0b" stroke="#8a5c00" stroke-width="2"/><text x="340" y="176" fill="#8a5c00" font-weight="700">Guptas → Palas</text><text x="340" y="232" fill="#555">Nalanda (Kumaragupta I);</text><text x="340" y="248" fill="#555">Vikramshila (Dharmapala)</text></g>
+<g><circle cx="425" cy="200" r="9" fill="#1e2a44"/><text x="425" y="176" fill="#1e2a44" font-weight="700">Sultanate</text><text x="425" y="232" fill="#555">1206–1526;</text><text x="425" y="248" fill="#555">Delhi-centred</text></g>
+<g><circle cx="505" cy="200" r="9" fill="#f59e0b" stroke="#8a5c00" stroke-width="2"/><text x="505" y="176" fill="#8a5c00" font-weight="700">Mughals</text><text x="505" y="232" fill="#555">1526–1707;</text><text x="505" y="248" fill="#555">Sher Shah (Sasaram)</text></g>
+<g><circle cx="585" cy="200" r="9" fill="#f59e0b" stroke="#8a5c00" stroke-width="2"/><text x="585" y="176" fill="#8a5c00" font-weight="700">British → 1947</text><text x="585" y="232" fill="#555">Plassey 1757, Buxar 1764;</text><text x="585" y="248" fill="#555">Champaran 1917, Quit India</text></g>
+</g>
+
+<rect x="40" y="290" width="620" height="76" rx="10" fill="#fff7e6" stroke="#c98a12"/>
+<text x="350" y="314" text-anchor="middle" fill="#8a5c00" font-size="13.5" font-weight="700">How to use it in an answer</text>
+<text x="350" y="338" text-anchor="middle" fill="#8a5c00" font-size="13">Any history question: draw the line, mark the question's era, show "what came before → what it caused".</text>
+<text x="350" y="358" text-anchor="middle" fill="#8a5c00" font-size="13">Examiners reward continuity thinking — e.g. Buxar 1764 → Diwani 1765 → Company state.</text>
+</g>
+</svg>

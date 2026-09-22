@@ -43,6 +43,7 @@ PAGES = [
     ("booklist.md", "books/index.html", "books"),
     ("syllabus/prelims.md", "syllabus/prelims/index.html", "syllabus"),
     ("syllabus/mains.md", "syllabus/mains/index.html", "syllabus"),
+    ("syllabus/prelims-blueprint.md", "syllabus/prelims-blueprint/index.html", "syllabus"),
     ("notes/bihar-history.md", "notes/bihar-history/index.html", "notes"),
     ("notes/bihar-geography.md", "notes/bihar-geography/index.html", "notes"),
     ("notes/bihar-polity.md", "notes/bihar-polity/index.html", "notes"),
@@ -53,10 +54,17 @@ PAGES = [
     ("notes/economy.md", "notes/economy/index.html", "notes"),
     ("notes/environment.md", "notes/environment/index.html", "notes"),
     ("notes/science-tech.md", "notes/science-tech/index.html", "notes"),
+    ("notes/prelims-rapid-fire.md", "notes/prelims-rapid-fire/index.html", "notes"),
     ("bihar-gk-rapid-fire.md", "bihar-gk-rapid-fire/index.html", "bihargk"),
     ("pyq/strategy.md", "pyq/strategy/index.html", "pyq"),
     ("strategy/one-attempt-plan.md", "strategy/one-attempt-plan/index.html", "strategy"),
     ("strategy/memorization.md", "strategy/memorization/index.html", "strategy"),
+    ("strategy/mains-answer-writing.md", "strategy/mains-answer-writing/index.html", "strategy"),
+    ("strategy/mains-gs1.md", "strategy/mains-gs1/index.html", "strategy"),
+    ("strategy/mains-gs2.md", "strategy/mains-gs2/index.html", "strategy"),
+    ("strategy/mains-hindi-essay.md", "strategy/mains-hindi-essay/index.html", "strategy"),
+    ("strategy/topper-methods.md", "strategy/topper-methods/index.html", "strategy"),
+    ("strategy/prelims-vs-mains.md", "strategy/prelims-vs-mains/index.html", "strategy"),
 ]
 
 # Section index pages generated from card data: (section dir, title, nav, cards)
@@ -65,6 +73,7 @@ SECTIONS = [
     ("syllabus", "Syllabus", "syllabus", [
         ("Prelims Syllabus", "syllabus/prelims/", "One paper, 150 MCQs — full topic-wise syllabus for the screening stage."),
         ("Mains Syllabus", "syllabus/mains/", "Hindi (qualifying) + GS-I + GS-II + Optional + Essay — the 71st-pattern syllabus."),
+        ("Prelims Topic-wise Blueprint", "syllabus/prelims-blueprint/", "Decade weightage → study priority: what to study first, with must-know facts per subject."),
     ]),
     ("notes", "Notes", "notes", [
         ("Bihar History", "notes/bihar-history/", "Ancient to modern Bihar — Nalanda, Sher Shah, Champaran and more."),
@@ -77,6 +86,7 @@ SECTIONS = [
         ("Indian Economy", "notes/economy/", "Concepts BPSC repeats — GDP, inflation, GST and more."),
         ("Environment & Ecology", "notes/environment/", "Ecology, laws and conventions, BPSC-oriented."),
         ("Science & Technology", "notes/science-tech/", "Everyday science plus tech from current affairs."),
+        ("Prelims Rapid-Fire One-Liners", "notes/prelims-rapid-fire/", "High-yield facts for Bihar, Science and Current Affairs — the heaviest Prelims blocks."),
     ]),
     ("pyq", "Previous-Year Questions", "pyq", [
         ("PYQ Strategy", "pyq/strategy/", "How to mine previous-year papers: theme tagging, drills and the one-attempt PYQ calendar."),
@@ -85,6 +95,12 @@ SECTIONS = [
     ("strategy", "Study Strategy", "strategy", [
         ("One-Attempt Plan", "strategy/one-attempt-plan/", "The 12-month timetable to crack BPSC CCE in one attempt."),
         ("Memorization System", "strategy/memorization/", "Active recall, spaced repetition and mnemonics that make one attempt enough."),
+        ("Mains Answer-Writing Frameworks", "strategy/mains-answer-writing/", "The IBC skeleton, examiner's checklist and worked model answers with diagrams."),
+        ("Mains GS-I Topic Guides", "strategy/mains-gs1/", "History, national movement, geography and polity — Bihar-anchored, with maps and timelines."),
+        ("Mains GS-II Topic Guides", "strategy/mains-gs2/", "Economy, science-tech, environment and the 30–40% Bihar Special block."),
+        ("Mains Hindi + Essay", "strategy/mains-hindi-essay/", "The qualifying paper you can't ignore + the 150-mark essay framework."),
+        ("What Toppers Do Differently", "strategy/topper-methods/", "Consensus habits from BPSC topper interviews — distilled, no copying."),
+        ("Prelims vs Mains", "strategy/prelims-vs-mains/", "One preparation, two skills: what overlaps and what needs separate training."),
     ]),
 ]
 
@@ -141,6 +157,8 @@ HOME_GROUPS = [
     ("Plan", "One attempt. One timetable.", [
         ("12-Month One-Attempt Plan", "strategy/one-attempt-plan/",
          "The full timetable — day one to interview."),
+        ("Mains Answer-Writing", "strategy/mains-answer-writing/",
+         "Frameworks, diagrams and model answers for GS-I, GS-II, Hindi and Essay."),
         ("Memorization System", "strategy/memorization/",
          "Active recall + spaced repetition that makes one attempt enough."),
     ]),
@@ -194,6 +212,9 @@ def rewrite_url(url: str) -> str:
         url, anchor = url.split("#", 1)
         anchor = "#" + anchor
     key = url[2:] if url.startswith("./") else url
+    if key.startswith("assets/"):
+        # site assets (diagrams etc.) -> absolute site URL, works from any depth
+        return BASE + "/" + key + anchor
     return URL_MAP.get(key, url) + anchor
 
 
@@ -356,6 +377,19 @@ def md_blocks(src: str):
             i += 1
             continue
 
+        # standalone image line -> <figure class="diagram"> (no <p> wrapper)
+        m = re.match(r"^!\[([^\]]*)\]\(([^)\s]+)\)\s*$", s)
+        if m:
+            alt = m.group(1)
+            src = rewrite_url(m.group(2).strip())
+            out.append('<figure class="diagram"><img src="'
+                       + html.escape(src, quote=True) + '" alt="'
+                       + html.escape(alt, quote=True)
+                       + '" loading="lazy"><figcaption>'
+                       + html.escape(alt) + "</figcaption></figure>")
+            i += 1
+            continue
+
         # paragraph: gather until blank or block start
         buf = [s]
         i += 1
@@ -485,6 +519,18 @@ def build(out_dir: str) -> list:
         with open(os.path.join(REPO, src), "rb") as fh:
             data = fh.read()
         write(out, data)
+
+    # Static assets (SVG diagrams etc.) copied deterministically, sorted
+    assets_src = os.path.join(REPO, "sitegen", "assets")
+    if os.path.isdir(assets_src):
+        for dirpath, dirnames, filenames in os.walk(assets_src):
+            dirnames.sort()
+            for fn in sorted(filenames):
+                srcp = os.path.join(dirpath, fn)
+                rel = os.path.relpath(srcp, assets_src).replace(os.sep, "/")
+                with open(srcp, "rb") as fh:
+                    data = fh.read()
+                write("assets/" + rel, data)
 
     # Disable Jekyll so Pages serves the static files as-is
     write(".nojekyll", b"")

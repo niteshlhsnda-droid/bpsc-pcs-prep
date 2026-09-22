@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 460" role="img" aria-labelledby="t d" style="max-width:100%;height:auto;background:#fffdf7;border:1px solid #e7dcc4;border-radius:12px">
+<title id="t">Union Budget process flowchart</title>
+<desc id="d">Flowchart of the Union Budget process: presentation on 1 February, general discussion, scrutiny by departmental committees, voting on demands for grants, appropriation bill and finance bill.</desc>
+<defs>
+<marker id="ar5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1e2a44"/></marker>
+</defs>
+<text x="340" y="34" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#1e2a44">The Budget Process — How It Passes</text>
+<g font-family="system-ui,sans-serif" font-size="13">
+<rect x="190" y="56" width="300" height="52" rx="10" fill="#1e2a44"/>
+<text x="340" y="87" text-anchor="middle" fill="#fff" font-weight="600">Presented 1 February (Art. 112)</text>
+<line x1="340" y1="108" x2="340" y2="128" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar5)"/>
+
+<rect x="120" y="128" width="440" height="60" rx="10" fill="#ffffff" stroke="#1e2a44" stroke-width="2"/>
+<text x="340" y="152" text-anchor="middle" fill="#1e2a44" font-weight="700">General discussion (no voting, no cut motions)</text>
+<text x="340" y="172" text-anchor="middle" fill="#555" font-size="12.5">Lok Sabha debates the budget as a whole</text>
+<line x1="340" y1="188" x2="340" y2="208" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar5)"/>
+
+<rect x="120" y="208" width="440" height="60" rx="10" fill="#ffffff" stroke="#1e2a44" stroke-width="2"/>
+<text x="340" y="232" text-anchor="middle" fill="#1e2a44" font-weight="700">Departmental standing committees scrutinise demands</text>
+<text x="340" y="252" text-anchor="middle" fill="#555" font-size="12.5">detailed examination, reports back to the House</text>
+<line x1="340" y1="268" x2="340" y2="288" stroke="#1e2a44" stroke-width="2" marker-end="url(#ar5)"/>
+
+<rect x="60" y="288" width="280" height="72" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2"/>
+<text x="200" y="314" text-anchor="middle" fill="#1e2a44" font-weight="700">Voting on demands for grants</text>
+<text x="200" y="336" text-anchor="middle" fill="#5a4a2f" font-size="12.5">Lok Sabha only · cut motions possible</text>
+<rect x="360" y="288" width="260" height="72" rx="10" fill="#fdf0d5" stroke="#f59e0b" stroke-width="2"/>
+<text x="490" y="314" text-anchor="middle" fill="#1e2a44" font-weight="700">Appropriation Bill (Art. 114)</text>
+<text x="490" y="336" text-anchor="middle" fill="#5a4a2f" font-size="12.5">legal authority to withdraw from CFI</text>
+
+<rect x="190" y="388" width="300" height="52" rx="10" fill="#2e7d32"/>
+<text x="340" y="419" text-anchor="middle" fill="#fff" font-weight="700">Finance Bill → taxation proposals become law</text>
+<text x="340" y="440" text-anchor="middle" fill="#777" font-size="12">Draw in 90 seconds: 1 Feb → discussion → committees → grants vote → appropriation → finance bill.</text>
+</g>
+</svg>
