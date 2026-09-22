@@ -6,87 +6,203 @@
 <title>Bihar GK Rapid Fire — High-Yield One-Liners · BPSC PCS Prep</title>
 <meta name="description" content="BPSC Combined Competitive Examination preparation: syllabus, notes, books, question banks, PYQ strategy and analysis.">
 <style>
+/* ============ BPSC PCS Prep — design system ============
+   Deep navy (exam-serious) + saffron/amber (energy, Bihar warmth)
+   on warm paper. Clutter-free, mobile-first. */
 :root{
-  --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --accent-soft:#eff6ff;
-  --line:#e5e7eb; --bg:#ffffff; --card:#f9fafb;
+  --navy-950:#0a1428;
+  --navy-900:#0c1830;
+  --navy-800:#14264c;
+  --navy-700:#1d3463;
+  --saffron:#f59e0b;
+  --saffron-bright:#fbbf24;
+  --saffron-deep:#c26a00;
+  --saffron-soft:#fef4e0;
+  --paper:#faf7f1;
+  --surface:#ffffff;
+  --ink:#1e2735;
+  --muted:#5f6a7d;
+  --line:#e9e1d1;
+  --radius:14px;
+  --shadow-sm:0 1px 3px rgba(12,24,48,.08);
+  --shadow-md:0 6px 20px rgba(12,24,48,.10);
+  --shadow-lg:0 14px 34px rgba(12,24,48,.16);
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
-  color:var(--ink);background:var(--bg);line-height:1.65}
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
-.site-header{background:#0f2a5c;color:#fff;position:sticky;top:0;z-index:10}
-.site-header .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
-.brand{color:#fff;text-decoration:none;font-weight:800;font-size:1.15rem;white-space:nowrap}
-.brand:hover{color:#dbeafe}
-nav.main{display:flex;gap:4px;flex-wrap:wrap}
-nav.main a{color:#dbeafe;text-decoration:none;font-size:.92rem;padding:6px 10px;border-radius:8px}
-nav.main a:hover{background:rgba(255,255,255,.14);color:#fff}
-nav.main a.active{background:rgba(255,255,255,.2);color:#fff;font-weight:600}
-.content{padding:28px 20px 60px}
-.content h1{font-size:1.9rem;line-height:1.25;margin:.2em 0 .6em}
-.content h2{font-size:1.4rem;margin:1.6em 0 .5em;padding-bottom:.3em;border-bottom:2px solid var(--accent-soft)}
-.content h3{font-size:1.15rem;margin:1.4em 0 .4em}
-.content p{margin:.7em 0}
-.content a{color:var(--accent)}
-.content table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.95rem;display:block;overflow-x:auto}
-.content th,.content td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
-.content th{background:var(--accent-soft);font-weight:700}
-.content tr:nth-child(even) td{background:#fafafa}
-.content ul,.content ol{margin:.7em 0;padding-left:1.6em}
-.content li{margin:.35em 0}
-.content blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--accent);
-  background:var(--accent-soft);border-radius:0 8px 8px 0}
-.content blockquote p{margin:.4em 0}
-.content pre{background:#111827;color:#e5e7eb;padding:14px 16px;border-radius:10px;overflow-x:auto;font-size:.88rem}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--paper);
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+::selection{background:var(--saffron-bright);color:var(--navy-950)}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* ---------- header ---------- */
+.site-header{background:linear-gradient(180deg,var(--navy-900),var(--navy-950));
+  color:#fff;position:sticky;top:0;z-index:20;border-bottom:3px solid var(--saffron);
+  box-shadow:0 2px 12px rgba(10,20,40,.35)}
+.header-inner{display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding-top:13px;padding-bottom:13px}
+.brand{color:#fff;text-decoration:none;font-weight:800;font-size:1.18rem;
+  letter-spacing:.01em;white-space:nowrap;display:flex;align-items:center;gap:9px}
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
+  background:var(--saffron);border-radius:10px;font-size:1.05rem;
+  box-shadow:0 2px 8px rgba(245,158,11,.45)}
+.brand em{font-style:normal;color:var(--saffron-bright)}
+nav.main{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+nav.main a{color:#c9d6f2;text-decoration:none;font-size:.9rem;font-weight:600;
+  padding:8px 13px;border-radius:9px;transition:background .15s,color .15s}
+nav.main a:hover{background:rgba(255,255,255,.10);color:#fff}
+nav.main a.active{background:rgba(245,158,11,.16);color:var(--saffron-bright)}
+
+/* ---------- page body ---------- */
+.content{padding:30px 24px 70px;counter-reset:group}
+.content h1{font-size:2.05rem;line-height:1.22;margin:.15em 0 .55em;letter-spacing:-.015em;
+  color:var(--navy-900)}
+.content h1::after{content:"";display:block;width:56px;height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--saffron),var(--saffron-bright));margin-top:12px}
+.content h2{font-size:1.42rem;margin:1.7em 0 .55em;letter-spacing:-.01em;color:var(--navy-800);
+  padding-bottom:.35em;border-bottom:2px solid var(--line)}
+.content h3{font-size:1.14rem;margin:1.45em 0 .4em;color:var(--navy-800)}
+.content p{margin:.75em 0}
+.content p a,.content li a,.content td a,.content th a,.content blockquote a
+  {color:var(--navy-700);text-decoration-color:rgba(29,52,99,.35);text-underline-offset:3px}
+.content p a:hover,.content li a:hover,.content td a:hover,.content th a:hover,
+.content blockquote a:hover{color:var(--saffron-deep)}
+.content table{border-collapse:collapse;width:100%;margin:1.2em 0;font-size:.94rem;
+  display:block;overflow-x:auto;background:var(--surface);border-radius:12px;
+  box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.content th,.content td{border:none;border-bottom:1px solid var(--line);
+  padding:11px 14px;text-align:left;vertical-align:top}
+.content thead th{background:var(--navy-800);color:#fff;font-weight:700;font-size:.86rem;
+  letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.content thead th:first-child{border-radius:11px 0 0 0}
+.content thead th:last-child{border-radius:0 11px 0 0}
+.content tbody tr:last-child td{border-bottom:none}
+.content tbody tr:nth-child(even) td{background:#fdfbf6}
+.content ul,.content ol{margin:.75em 0;padding-left:1.55em}
+.content li{margin:.4em 0}
+.content li::marker{color:var(--saffron-deep);font-weight:700}
+.content blockquote{margin:1.2em 0;padding:.8em 1.2em;border-left:4px solid var(--saffron);
+  background:var(--saffron-soft);border-radius:0 12px 12px 0;box-shadow:var(--shadow-sm)}
+.content blockquote p{margin:.45em 0}
+.content pre{background:var(--navy-950);color:#e8eefc;padding:16px 18px;border-radius:12px;
+  overflow-x:auto;font-size:.87rem;box-shadow:var(--shadow-sm)}
 .content code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em}
-.content p code,.content li code,.content td code{background:#f3f4f6;padding:1px 6px;border-radius:5px}
-.content hr{border:none;border-top:1px solid var(--line);margin:2em 0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:1.2em 0}
-.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px 18px;text-decoration:none;color:var(--ink)}
-.card:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(29,78,216,.12)}
-.card h3{margin:0 0 6px;font-size:1.05rem;color:var(--accent)}
-.card p{margin:0;color:var(--muted);font-size:.92rem}
-.site-footer{border-top:1px solid var(--line);background:var(--card);margin-top:40px}
-.site-footer .wrap{padding-top:18px;padding-bottom:18px;font-size:.88rem;color:var(--muted)}
-.site-footer a{color:var(--accent)}
-.badge{display:inline-block;background:#fef3c7;color:#92400e;font-size:.8rem;font-weight:700;
-  padding:2px 10px;border-radius:999px;margin-bottom:8px}
-/* homepage */
-.hero{background:linear-gradient(135deg,#0f2a5c 0%,#1d4ed8 100%);color:#fff;border-radius:16px;
-  padding:42px 34px;margin:4px 0 24px}
-.hero .kicker{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:#bfdbfe;
-  margin:0 0 10px;font-weight:700}
-.hero h1{font-size:2.4rem;margin:0 0 10px;line-height:1.15;color:#fff}
-.hero .tagline{font-size:1.05rem;color:#dbeafe;max-width:640px;margin:0 0 24px}
+.content p code,.content li code,.content td code{background:#f1ead9;color:#7c4a03;
+  padding:2px 7px;border-radius:6px}
+.content hr{border:none;border-top:1px solid var(--line);margin:2.2em 0}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;margin:1.3em 0}
+.card{position:relative;display:block;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 20px 18px;text-decoration:none;color:var(--ink);
+  box-shadow:var(--shadow-sm);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+  overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--saffron),var(--saffron-bright));
+  opacity:0;transition:opacity .16s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#f3d9a4}
+.card:hover::before{opacity:1}
+.card h3{margin:0 0 7px;font-size:1.06rem;color:var(--navy-800);padding-right:26px}
+.card h3::after{content:"→";position:absolute;top:18px;right:18px;color:var(--saffron-deep);
+  font-weight:800;transition:transform .16s ease}
+.card:hover h3::after{transform:translateX(4px)}
+.card p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.6}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--navy-950);color:#a9b8d8;margin-top:48px;
+  border-top:3px solid var(--saffron)}
+.site-footer .wrap{padding-top:26px;padding-bottom:26px;font-size:.9rem}
+.site-footer strong{color:#fff}
+.site-footer a{color:var(--saffron-bright);text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+.site-footer p{margin:.4em 0;max-width:720px}
+
+/* ---------- badges ---------- */
+.badge{display:inline-block;background:var(--saffron-soft);color:#8a5200;font-size:.78rem;
+  font-weight:700;padding:3px 12px;border-radius:999px;margin-bottom:10px;
+  border:1px solid #f3d9a4;letter-spacing:.03em}
+
+/* ---------- homepage ---------- */
+.hero{position:relative;overflow:hidden;color:#fff;border-radius:22px;
+  padding:58px 48px;margin:6px 0 30px;
+  background:linear-gradient(130deg,var(--navy-950) 0%,var(--navy-800) 55%,var(--navy-700) 100%);
+  box-shadow:var(--shadow-lg)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(560px 300px at 88% 8%,rgba(245,158,11,.30),transparent 62%),
+    radial-gradient(420px 280px at 4% 100%,rgba(245,158,11,.14),transparent 60%)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);
+  background-size:26px 26px}
+.hero>*{position:relative;z-index:1}
+.hero .kicker{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--saffron-bright);margin:0 0 12px;font-weight:800}
+.hero h1{font-size:2.75rem;margin:0 0 12px;line-height:1.08;letter-spacing:-.02em;color:#fff}
+.hero h1::after{display:none}
+.hero h1 .hl{color:var(--saffron-bright)}
+.hero .tagline{font-size:1.06rem;color:#cfdbf5;max-width:660px;margin:0 0 28px;line-height:1.65}
 .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-block;padding:11px 20px;border-radius:10px;text-decoration:none;font-weight:700;
-  font-size:.95rem;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35)}
-.btn:hover{background:rgba(255,255,255,.24)}
-.btn.primary{background:#fff;color:#0f2a5c;border-color:#fff}
-.btn.primary:hover{background:#dbeafe}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:0 0 6px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 12px;text-align:center}
-.stat-num{display:block;font-size:1.6rem;font-weight:800;color:var(--accent)}
-.stat-label{display:block;font-size:.82rem;color:var(--muted);margin-top:4px}
-.hgroup{margin:32px 0 6px}
-.hgroup h2{border:none;padding:0;font-size:1.35rem;margin:0 0 2px}
-.gdesc{color:var(--muted);margin:0 0 4px;font-size:.95rem}
-/* breadcrumbs */
-.crumbs{font-size:.85rem;color:var(--muted);margin:0 0 8px}
-.crumbs a{color:var(--accent);text-decoration:none}
-.crumbs a:hover{text-decoration:underline}
-.crumbs .sep{margin:0 7px}
-.crumbs .here{color:var(--ink);font-weight:600}
-.section-desc{color:var(--muted);font-size:1.02rem;margin:-.3em 0 1em}
-@media(max-width:640px){.content h1{font-size:1.55rem}.hero{padding:30px 22px}.hero h1{font-size:1.9rem}}
+.btn{display:inline-block;padding:13px 24px;border-radius:12px;text-decoration:none;
+  font-weight:700;font-size:.96rem;background:rgba(255,255,255,.08);color:#fff;
+  border:1px solid rgba(255,255,255,.35);transition:transform .15s,background .15s,box-shadow .15s}
+.btn:hover{background:rgba(255,255,255,.16);transform:translateY(-1px);color:#fff}
+.btn.primary{background:linear-gradient(180deg,var(--saffron-bright),var(--saffron));
+  color:#241500;border-color:transparent;box-shadow:0 6px 18px rgba(245,158,11,.35)}
+.btn.primary:hover{background:linear-gradient(180deg,#fcd34d,var(--saffron-bright));
+  box-shadow:0 8px 22px rgba(245,158,11,.45);color:#241500}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;margin:0 0 8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--saffron);
+  border-radius:var(--radius);padding:18px 12px 16px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-num{display:block;font-size:1.75rem;font-weight:800;color:var(--navy-800);
+  letter-spacing:-.02em}
+.stat-label{display:block;font-size:.8rem;color:var(--muted);margin-top:5px;line-height:1.45}
+
+.hgroup{margin:38px 0 8px;counter-increment:group}
+.hgroup h2{border:none;padding:0;font-size:1.5rem;margin:0 0 4px;color:var(--navy-900);
+  display:flex;align-items:baseline;gap:12px}
+.hgroup h2::before{content:"0" counter(group);font-size:.85rem;font-weight:800;
+  color:var(--saffron-deep);background:var(--saffron-soft);border:1px solid #f3d9a4;
+  border-radius:8px;padding:3px 9px;letter-spacing:.05em}
+.gdesc{color:var(--muted);margin:0 0 6px;font-size:.97rem}
+
+/* ---------- breadcrumbs ---------- */
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:.84rem;
+  color:var(--muted);margin:0 0 14px}
+.crumbs a{color:var(--navy-700);text-decoration:none;font-weight:600;
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:3px 12px;transition:border-color .15s}
+.crumbs a:hover{border-color:var(--saffron);color:var(--saffron-deep)}
+.crumbs .sep{margin:0 4px;color:#c9bfa9}
+.crumbs .here{color:var(--ink);font-weight:700}
+.section-desc{color:var(--muted);font-size:1.04rem;margin:-.2em 0 1.1em;max-width:640px}
+
+/* ---------- responsive ---------- */
+@media(max-width:720px){
+  .header-inner{gap:10px}
+  nav.main{margin-left:0;width:100%}
+  nav.main a{padding:7px 10px;font-size:.85rem}
+  .content{padding:22px 18px 56px}
+  .content h1{font-size:1.65rem}
+  .hero{padding:38px 26px;border-radius:18px}
+  .hero h1{font-size:2.05rem}
+  .hero .tagline{font-size:.98rem}
+  .cards{grid-template-columns:1fr}
+  .btn{width:100%;text-align:center}
+}
+@media(max-width:420px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 <header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="/bpsc-pcs-prep/">📚 BPSC PCS Prep</a>
-    <nav class="main">
+  <div class="wrap header-inner">
+    <a class="brand" href="/bpsc-pcs-prep/"><span class="brand-mark">📚</span> BPSC <em>PCS</em> Prep</a>
+    <nav class="main" aria-label="Sections">
       <a href="/bpsc-pcs-prep/" >Home</a>
       <a href="/bpsc-pcs-prep/syllabus/" >Syllabus</a>
       <a href="/bpsc-pcs-prep/notes/" >Notes</a>
@@ -204,8 +320,8 @@ nav.main a.active{background:rgba(255,255,255,.2);color:#fff;font-weight:600}
 </main>
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>BPSC PCS Prep</strong> — original study summaries, free forever.
-    Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> ·
+    <p><strong>BPSC PCS Prep</strong> — original study summaries, free forever.</p>
+    <p>Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> ·
     <a href="https://github.com/niteshlhsnda-droid/bpsc-pcs-prep">GitHub repo</a> ·
     built with <a href="https://github.com/niteshlhsnda-droid/bpsc-pcs-prep/tree/main/sitegen">sitegen</a> (Python).
     Always verify exam details against the official BPSC notification.</p>
