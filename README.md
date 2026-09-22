@@ -29,7 +29,8 @@ syllabus, Bihar-focused notes, rapid-fire GK, booklist, previous-year-question s
 3. **Build Bihar first:** BPSC gives Bihar 20–40% weightage. Read the `notes/bihar-*.md` files, then drill [`bihar-gk-rapid-fire.md`](bihar-gk-rapid-fire.md).
 4. **Books:** [`booklist.md`](booklist.md) — one shelf, no more.
 5. **PYQs:** [`pyq/strategy.md`](pyq/strategy.md) — how to mine previous-year papers.
-6. **Memory:** [`strategy/memorization.md`](strategy/memorization.md) — the revision system that makes one attempt enough.
+6. **📊 PYQ analysis:** [`pyq-analysis/`](pyq-analysis/) — **NEW:** which topics the last 10 years of papers actually reward — weightage tables, year-wise trend charts, Prelims vs Mains split, Bihar deep-dive, and a study-priority guide. ([view live site](https://niteshlhsnda-droid.github.io/bpsc-pcs-prep/pyq-analysis/))
+7. **Memory:** [`strategy/memorization.md`](strategy/memorization.md) — the revision system that makes one attempt enough.
 
 ## Repo map
 
@@ -38,6 +39,7 @@ syllabus, Bihar-focused notes, rapid-fire GK, booklist, previous-year-question s
 ├── notes/           original concise notes: Bihar history/geo/polity/economy + GS subjects
 ├── bihar-gk-rapid-fire.md   high-yield one-liners (firsts, rivers, GI tags, dances, CMs)
 ├── pyq/             how to use previous-year questions (links, not copied papers)
+├── pyq-analysis/    10-year topic-weightage website (weightage, trends, priority guide)
 ├── booklist.md      standard books per subject, with why
 └── strategy/        12-month one-attempt plan + memorization system
 ```
