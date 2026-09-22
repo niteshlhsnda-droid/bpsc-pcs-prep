@@ -402,8 +402,8 @@ def section_index_html(sec: str, title: str, cards) -> str:
         out.append('<p class="section-desc">%s</p>' % html.escape(desc))
     out.append('<div class="cards">')
     for ctitle, curl, blurb in cards:
-        out.append('<a class="card" href="%s%s/">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
-                   % (BASE, curl.rstrip("/"), html.escape(ctitle), html.escape(blurb)))
+        out.append('<a class="card" href="%s/%s/">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
+                   % (BASE, curl.strip("/"), html.escape(ctitle), html.escape(blurb)))
     out.append("</div>")
     return "\n".join(out)
 
