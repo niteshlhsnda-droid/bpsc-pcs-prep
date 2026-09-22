@@ -27,7 +27,8 @@ syllabus, Bihar-focused notes, rapid-fire GK, booklist, previous-year-question s
 1. **Start here:** [`strategy/one-attempt-plan.md`](strategy/one-attempt-plan.md) — the 12-month timetable.
 2. **Know the battlefield:** [`syllabus/prelims.md`](syllabus/prelims.md) and [`syllabus/mains.md`](syllabus/mains.md).
 3. **Build Bihar first:** BPSC gives Bihar 20–40% weightage. Read the `notes/bihar-*.md` files, then drill [`bihar-gk-rapid-fire.md`](bihar-gk-rapid-fire.md).
-4. **Books:** [`booklist.md`](booklist.md) — one shelf, no more.
+4. **Books & question banks:** [`booklist.md`](booklist.md) — one shelf, no more: PYQ
+   compilations, practice sets, Bihar-specific books and subject standards.
 5. **PYQs:** [`pyq/strategy.md`](pyq/strategy.md) — how to mine previous-year papers.
 6. **📊 PYQ analysis:** [`pyq-analysis/`](pyq-analysis/) — **NEW:** which topics the last 10 years of papers actually reward — weightage tables, year-wise trend charts, Prelims vs Mains split, Bihar deep-dive, and a study-priority guide. ([view live site](https://niteshlhsnda-droid.github.io/bpsc-pcs-prep/pyq-analysis/))
 7. **Memory:** [`strategy/memorization.md`](strategy/memorization.md) — the revision system that makes one attempt enough.
@@ -40,9 +41,26 @@ syllabus, Bihar-focused notes, rapid-fire GK, booklist, previous-year-question s
 ├── bihar-gk-rapid-fire.md   high-yield one-liners (firsts, rivers, GI tags, dances, CMs)
 ├── pyq/             how to use previous-year questions (links, not copied papers)
 ├── pyq-analysis/    10-year topic-weightage website (weightage, trends, priority guide)
-├── booklist.md      standard books per subject, with why
-└── strategy/        12-month one-attempt plan + memorization system
+├── booklist.md      books & question banks: PYQ compilations, practice sets, Bihar books
+├── strategy/        12-month one-attempt plan + memorization system
+└── sitegen/         Python static-site generator (build.py) + templates + docs
 ```
+
+## Website
+
+The public site (https://niteshlhsnda-droid.github.io/bpsc-pcs-prep/) is **generated** from the
+Markdown sources above — GitHub Pages only serves static files, so a small Python generator
+does the rendering:
+
+```bash
+python3 sitegen/build.py            # regenerate the HTML into the repo root
+python3 sitegen/build.py --check    # verify two consecutive builds are byte-identical
+python3 sitegen/publish.py          # publish everything to GitHub via the API
+```
+
+`build.py` uses only the Python standard library (a small built-in Markdown converter).
+`pyq-analysis/index.html` is copied through byte-for-byte. See
+[`sitegen/README.md`](sitegen/README.md) for the page map and conventions.
 
 ## Disclaimer
 
