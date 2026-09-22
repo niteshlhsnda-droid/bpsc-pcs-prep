@@ -64,7 +64,7 @@ GENERATED = [
     "strategy/one-attempt-plan/index.html",
     "strategy/memorization/index.html",
 ]
-SOURCES = ["booklist.md", "README.md"]
+SOURCES = ["booklist.md", "README.md", "home.md"]
 TOOLING = [
     "sitegen/build.py",
     "sitegen/publish.py",
@@ -122,8 +122,8 @@ def main() -> int:
     print(f"tree {tree['sha'][:7]}")
 
     commit = api("post", f"{base}/git/commits", {
-        "message": ("Books & question banks added; site rebuilt with Python "
-                    "sitegen generator (build.py + templates, .nojekyll)"),
+        "message": ("Homepage redesign: clutter-free hero + Learn/Practice/Plan groups, "
+                    "slimmer nav, breadcrumbs site-wide (build.py + templates + home.md)"),
         "tree": tree["sha"],
         "parents": [head_sha],
     })

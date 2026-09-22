@@ -39,7 +39,7 @@ BASE = "/bpsc-pcs-prep"  # project-site path on GitHub Pages
 # Page registry: (markdown source, output path, nav section)
 # ---------------------------------------------------------------------------
 PAGES = [
-    ("README.md", "index.html", "home"),
+    ("home.md", "index.html", "home"),
     ("booklist.md", "books/index.html", "books"),
     ("syllabus/prelims.md", "syllabus/prelims/index.html", "syllabus"),
     ("syllabus/mains.md", "syllabus/mains/index.html", "syllabus"),
@@ -92,6 +92,75 @@ SECTIONS = [
 VERBATIM = [
     ("pyq-analysis/index.html", "pyq-analysis/index.html"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# Homepage: hero + stat strip + grouped entry cards.
+# home.md holds the remaining body content (exam snapshot); everything
+# structural lives here so the homepage stays data-driven and idempotent.
+# ---------------------------------------------------------------------------
+HOME_TITLE = "Crack BPSC CCE in One Attempt"
+
+HOME_HERO = """<section class="hero">
+<p class="kicker">Bihar Public Service Commission · Combined Competitive Examination</p>
+<h1>BPSC PCS Prep</h1>
+<p class="tagline">Everything you need to crack the BPSC CCE in one attempt — syllabus,
+Bihar-first notes, ten years of PYQ analysis, the right books, and a 12-month plan.
+Original summaries, free forever.</p>
+<div class="cta-row">
+<a class="btn primary" href="{BASE}/strategy/one-attempt-plan/">Start with the 12-month plan</a>
+<a class="btn" href="{BASE}/pyq-analysis/">See what 10 years of papers reward</a>
+</div>
+</section>"""
+
+HOME_STATS = [
+    ("150", "Prelims MCQs · screening only"),
+    ("1,050", "Mains merit marks"),
+    ("120", "Interview marks"),
+    ("⅓", "Negative marking · Prelims only"),
+]
+
+# (group title, group blurb, [(card title, url rel to BASE, blurb)])
+HOME_GROUPS = [
+    ("Learn", "Know the battlefield first.", [
+        ("Syllabus", "syllabus/",
+         "Prelims + Mains, topic-wise — exactly what BPSC asks."),
+        ("Notes", "notes/",
+         "Short, original, Bihar-first: history, geography, polity, economy + the GS core."),
+    ]),
+    ("Practice", "Train on real questions, with the right books.", [
+        ("10-Year PYQ Analysis", "pyq-analysis/",
+         "Which topics the last decade of papers actually rewards — weightage & trends."),
+        ("Books & Question Banks", "books/",
+         "One shelf, no more: PYQ compilations, practice sets, Bihar books."),
+        ("Bihar GK Rapid-Fire", "bihar-gk-rapid-fire/",
+         "High-yield one-liners: firsts, rivers, GI tags, dances, CMs."),
+        ("PYQ Strategy", "pyq/strategy/",
+         "How to mine previous-year papers the smart way."),
+    ]),
+    ("Plan", "One attempt. One timetable.", [
+        ("12-Month One-Attempt Plan", "strategy/one-attempt-plan/",
+         "The full timetable — day one to interview."),
+        ("Memorization System", "strategy/memorization/",
+         "Active recall + spaced repetition that makes one attempt enough."),
+    ]),
+]
+
+# One-line descriptions shown under section index headings.
+SECTION_DESC = {
+    "syllabus": "The official battlefield, topic by topic.",
+    "notes": "Short, original and BPSC-oriented — Bihar first, then the GS core.",
+    "pyq": "Learn from the papers themselves.",
+    "strategy": "Timetables and memory systems for a single serious attempt.",
+}
+
+# Breadcrumb section labels: nav key -> (label, url rel to BASE).
+CRUMB_SECTIONS = {
+    "syllabus": ("Syllabus", "syllabus/"),
+    "notes": ("Notes", "notes/"),
+    "pyq": ("Previous-Year Questions", "pyq/"),
+    "strategy": ("Study Strategy", "strategy/"),
+}
 
 
 def build_url_map() -> dict:
@@ -313,7 +382,7 @@ def load_template() -> str:
         return fh.read()
 
 
-NAV_KEYS = ["home", "syllabus", "notes", "bihargk", "books", "pyq", "pyqanalysis", "strategy"]
+NAV_KEYS = ["home", "syllabus", "notes", "bihargk", "books", "pyq", "strategy"]
 
 
 def render_page(title: str, body_html: str, nav: str, template: str) -> str:
@@ -328,12 +397,49 @@ def render_page(title: str, body_html: str, nav: str, template: str) -> str:
 
 def section_index_html(sec: str, title: str, cards) -> str:
     out = ["<h1>%s</h1>" % html.escape(title)]
+    desc = SECTION_DESC.get(sec)
+    if desc:
+        out.append('<p class="section-desc">%s</p>' % html.escape(desc))
     out.append('<div class="cards">')
     for ctitle, curl, blurb in cards:
         out.append('<a class="card" href="%s%s/">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
                    % (BASE, curl.rstrip("/"), html.escape(ctitle), html.escape(blurb)))
     out.append("</div>")
     return "\n".join(out)
+
+
+def crumb_html(trail, current: str) -> str:
+    """Breadcrumb: Home › [section ›] page. trail = [(label, url-rel-to-BASE)]."""
+    bits = ['<nav class="crumbs" aria-label="Breadcrumb">']
+    bits.append('<a href="%s/">Home</a>' % BASE)
+    for label, url in trail:
+        bits.append('<span class="sep">›</span><a href="%s/%s">%s</a>'
+                    % (BASE, url, html.escape(label)))
+    bits.append('<span class="sep">›</span><span class="here">%s</span>'
+                % html.escape(current))
+    bits.append("</nav>")
+    return "".join(bits)
+
+
+def render_home(body_html: str) -> str:
+    """Compose the homepage: hero + stat strip + grouped entry cards + body."""
+    parts = [HOME_HERO.replace("{BASE}", BASE)]
+    parts.append('<section class="stats" aria-label="Exam at a glance">')
+    for num, label in HOME_STATS:
+        parts.append('<div class="stat"><span class="stat-num">%s</span>'
+                     '<span class="stat-label">%s</span></div>'
+                     % (html.escape(num), html.escape(label)))
+    parts.append("</section>")
+    for gtitle, gdesc, cards in HOME_GROUPS:
+        parts.append('<section class="hgroup"><h2>%s</h2><p class="gdesc">%s</p>'
+                     '<div class="cards">'
+                     % (html.escape(gtitle), html.escape(gdesc)))
+        for ctitle, curl, blurb in cards:
+            parts.append('<a class="card" href="%s/%s">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
+                         % (BASE, curl, html.escape(ctitle), html.escape(blurb)))
+        parts.append("</div></section>")
+    parts.append(body_html)
+    return "\n".join(parts)
 
 
 def build(out_dir: str) -> list:
@@ -355,13 +461,23 @@ def build(out_dir: str) -> list:
         title, body = md_blocks(md)
         if not title:
             title = os.path.splitext(os.path.basename(src))[0].replace("-", " ").title()
+        if out == "index.html":
+            # Homepage: dedicated hero layout, no breadcrumb.
+            title = HOME_TITLE
+            body = render_home(body)
+        elif nav in CRUMB_SECTIONS:
+            sec_label, sec_url = CRUMB_SECTIONS[nav]
+            body = crumb_html([(sec_label, sec_url)], title) + "\n" + body
+        else:
+            # Top-level pages (Books, Bihar GK): Home › page.
+            body = crumb_html([], title) + "\n" + body
         page = render_page(title, body, nav, template)
         write(out, page.encode("utf-8"))
 
     # Section index pages
     for sec, title, nav, cards in SECTIONS:
         body = section_index_html(sec, title, cards)
-        page = render_page(title, body, nav, template)
+        page = render_page(title, crumb_html([], title) + "\n" + body, nav, template)
         write(sec + "/index.html", page.encode("utf-8"))
 
     # Verbatim copies
