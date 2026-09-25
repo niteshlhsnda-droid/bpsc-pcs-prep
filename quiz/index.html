@@ -235,6 +235,30 @@ a.radar-item:hover{border-color:var(--saffron);box-shadow:0 2px 10px rgba(217,11
 .quiz-next{margin-top:.8rem;background:var(--navy);color:#fff;border:0;border-radius:8px;
   padding:.6rem 1.3rem;font-size:1rem;font-weight:600;cursor:pointer}
 .quiz-next:hover{background:var(--navy-800)}
+.quiz-nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:1.1rem}
+.quiz-nav .quiz-next{margin-top:0}
+.quiz-prev{background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:.6rem 1.1rem;font-size:1rem;font-weight:600;color:var(--navy);cursor:pointer}
+.quiz-prev:hover:not(:disabled){border-color:var(--saffron)}
+.quiz-prev:disabled{opacity:.4;cursor:default}
+.quiz-progbar{height:6px;background:#eef2f7;border-radius:99px;margin:.35rem 0 1rem;overflow:hidden}
+.quiz-progbar span{display:block;height:100%;background:var(--saffron);border-radius:99px;
+  transition:width .25s ease}
+.quiz-review{margin:.6rem 0 1rem;padding-left:1.35rem}
+.quiz-review li{margin-bottom:.6rem;font-size:.93rem;line-height:1.55}
+
+/* ---------- today's prep (daily MCQ + mains prompt) ---------- */
+.daily{margin:0 0 1.6rem}
+.daily h2{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-bottom:.3rem}
+.daily-date{font-size:.85rem;font-weight:600;color:var(--muted)}
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.9rem}
+.daily-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.2rem}
+.daily-label{font-size:.72rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:#b45309;margin-bottom:.5rem}
+.daily-q{font-size:1.05rem;line-height:1.5;margin:.2rem 0 .9rem}
+.daily-more{margin:.9rem 0 0;font-size:.9rem}
+.daily-toggle{margin-top:.8rem}
+@media(max-width:720px){.daily-grid{grid-template-columns:1fr}}
 .quiz-done h3{margin-top:0}
 @media(max-width:640px){.quiz-card{padding:1.1rem}}
 
@@ -280,7 +304,9 @@ var BPSC_QUIZ_BASE = "/bpsc-pcs-prep";
 var QUESTIONS = BPSC_QUIZ_QUESTIONS;
 var BASE = BPSC_QUIZ_BASE;
 var box = document.getElementById("bpsc-quiz");
-var idx = 0, score = 0, answered = 0;
+var idx = 0, score = 0, answeredCount = 0;
+var picked = [];
+for(var i=0;i<QUESTIONS.length;i++){ picked.push(null); }
 function esc(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
@@ -288,25 +314,50 @@ function render(){
   box.innerHTML = "";
   if(idx >= QUESTIONS.length){ finish(); return; }
   var q = QUESTIONS[idx];
+  var done = picked[idx] !== null;
   var card = document.createElement("div");
   card.className = "quiz-card";
   var html = '<div class="quiz-progress">Question ' + (idx+1) + ' of ' + QUESTIONS.length + '</div>'
+    + '<div class="quiz-progbar" aria-hidden="true"><span style="width:'
+    + Math.round(idx / QUESTIONS.length * 100) + '%"></span></div>'
     + '<h3 class="quiz-q">' + esc(q.q) + '</h3><div class="quiz-opts">';
   for(var k=0;k<q.opts.length;k++){
-    html += '<button type="button" class="quiz-opt" data-k="' + k + '">' + esc(q.opts[k]) + '</button>';
+    html += '<button type="button" class="quiz-opt" data-k="' + k + '"'
+      + (done ? ' disabled' : '') + '>' + esc(q.opts[k]) + '</button>';
   }
-  html += '</div><div class="quiz-why" hidden></div>';
+  html += '</div><div class="quiz-why"' + (done ? '' : ' hidden') + '></div>';
+  html += '<div class="quiz-nav">'
+    + '<button type="button" class="quiz-prev"' + (idx === 0 ? ' disabled' : '') + '>\u2190 Previous</button>'
+    + '<button type="button" class="quiz-next">'
+    + (idx + 1 < QUESTIONS.length ? 'Next \u2192' : 'See my score \u2192') + '</button>'
+    + '</div>';
   card.innerHTML = html;
   box.appendChild(card);
   var btns = card.querySelectorAll(".quiz-opt");
   for(var b=0;b<btns.length;b++){
-    btns[b].addEventListener("click", (function(btn){
-      return function(){ answer(parseInt(btn.getAttribute("data-k"),10), card); };
-    })(btns[b]));
+    (function(btn){
+      btn.addEventListener("click", function(){
+        answer(parseInt(btn.getAttribute("data-k"), 10));
+      });
+    })(btns[b]);
   }
+  if(done){ paintAnswer(card); }
+  var prev = card.querySelector(".quiz-prev");
+  prev.addEventListener("click", function(){ if(idx > 0){ idx--; render(); } });
+  var next = card.querySelector(".quiz-next");
+  next.addEventListener("click", function(){ idx++; render(); });
+  updateHead();
 }
-function answer(k, card){
-  var q = QUESTIONS[idx];
+function answer(k){
+  if(picked[idx] !== null){ return; }
+  picked[idx] = k;
+  answeredCount++;
+  if(k === QUESTIONS[idx].a){ score++; }
+  paintAnswer(box.querySelector(".quiz-card"));
+  updateHead();
+}
+function paintAnswer(card){
+  var q = QUESTIONS[idx], k = picked[idx];
   var btns = card.querySelectorAll(".quiz-opt");
   for(var b=0;b<btns.length;b++){
     btns[b].disabled = true;
@@ -314,47 +365,63 @@ function answer(k, card){
   }
   var why = card.querySelector(".quiz-why");
   why.hidden = false;
-  answered++;
   if(k === q.a){
-    score++;
     why.innerHTML = "<strong>Correct.</strong> " + esc(q.why);
   } else {
     btns[k].classList.add("wrong");
     why.innerHTML = "<strong>Not quite.</strong> " + esc(q.why);
   }
-  var next = document.createElement("button");
-  next.type = "button";
-  next.className = "quiz-next";
-  next.textContent = idx + 1 < QUESTIONS.length ? "Next question \u2192" : "See my score \u2192";
-  next.addEventListener("click", function(){ idx++; render(); updateHead(); });
-  why.appendChild(next);
-  updateHead();
 }
 function updateHead(){
   var h = document.getElementById("quiz-score-line");
-  if(h){ h.textContent = "Score: " + score + " / " + answered + " answered"; }
+  if(h){ h.textContent = "Score: " + score + " / " + answeredCount + " answered"; }
 }
 function finish(){
-  var pct = Math.round(score / QUESTIONS.length * 100);
+  var total = QUESTIONS.length;
+  var pct = total ? Math.round(score / total * 100) : 0;
   var msg = pct >= 90 ? "Outstanding \u2014 Bihar Special is yours."
     : pct >= 70 ? "Strong. One more round and it is pure reflex."
     : pct >= 50 ? "Getting there \u2014 reread the rapid-fire notes and retake."
     : "Start with the Bihar GK Rapid-Fire notes, then come back and try again.";
   var card = document.createElement("div");
   card.className = "quiz-card quiz-done";
-  card.innerHTML = "<h3>You scored " + score + " / " + QUESTIONS.length + " (" + pct + "%)</h3>"
+  var html = "<h3>You scored " + score + " / " + total + " (" + pct + "%)</h3>"
     + "<p>" + msg + "</p>";
+  var wrong = [], skipped = [], i;
+  for(i=0;i<total;i++){
+    if(picked[i] === null){ skipped.push(i); }
+    else if(picked[i] !== QUESTIONS[i].a){ wrong.push(i); }
+  }
+  if(wrong.length){
+    html += "<h4>Review your mistakes</h4><ol class=\"quiz-review\">";
+    for(i=0;i<wrong.length;i++){
+      var qq = QUESTIONS[wrong[i]];
+      html += "<li><strong>" + esc(qq.q) + "</strong><br>Correct answer: "
+        + esc(qq.opts[qq.a]) + "</li>";
+    }
+    html += "</ol>";
+  }
+  if(skipped.length){
+    html += "<p class=\"muted\">Skipped " + skipped.length + " question"
+      + (skipped.length > 1 ? "s" : "") + " \u2014 no penalty, but no points either.</p>";
+  }
+  card.innerHTML = html;
   var again = document.createElement("button");
   again.type = "button";
   again.className = "quiz-next";
   again.textContent = "Try again";
-  again.addEventListener("click", function(){ idx = 0; score = 0; answered = 0; render(); updateHead(); });
+  again.addEventListener("click", function(){
+    idx = 0; score = 0; answeredCount = 0;
+    for(var j=0;j<picked.length;j++){ picked[j] = null; }
+    render(); updateHead();
+  });
   card.appendChild(again);
   var more = document.createElement("p");
   more.innerHTML = 'Keep going: <a href="' + BASE + '/bihar-gk-rapid-fire/">Bihar GK Rapid-Fire</a>'
     + ' \u00b7 <a href="' + BASE + '/pyq-analysis/">10-Year PYQ Analysis</a>';
   card.appendChild(more);
   box.appendChild(card);
+  updateHead();
 }
 var head = document.createElement("div");
 head.className = "quiz-head";

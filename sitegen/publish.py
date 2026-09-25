@@ -89,6 +89,7 @@ TOOLING = [
     "sitegen/build.py",
     "sitegen/publish.py",
     "sitegen/quiz_questions.py",
+    "sitegen/mains_prompts.py",
     "sitegen/README.md",
     "sitegen/templates/base.html",
 ]
@@ -155,9 +156,9 @@ def main() -> int:
     print(f"tree {tree['sha'][:7]}")
 
     commit = api("post", f"{base}/git/commits", {
-        "message": ("Prelims + Mains prep section: topic-wise prelims blueprint, mains answer-writing "
-                    "frameworks, GS-I/GS-II topic guides with SVG diagrams, Hindi+Essay, topper methods, "
-                    "prelims-vs-mains, rapid-fire one-liners (build.py image/asset support + tooling)"),
+        "message": ("Quiz navigation fix (always-visible Previous/Next, progress bar, "
+                    "mistake review) + homepage 'Today's Prep' daily MCQ and mains "
+                    "writing prompt (UPSC-site benchmark pass)"),
         "tree": tree["sha"],
         "parents": [head_sha],
     })

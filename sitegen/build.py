@@ -33,6 +33,7 @@ import sys
 import tempfile
 
 from quiz_questions import QUESTIONS
+from mains_prompts import PROMPTS
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES = os.path.join(REPO, "sitegen", "templates")
@@ -512,6 +513,7 @@ def render_home(body_html: str) -> str:
                      % (html.escape(num), html.escape(label)))
     parts.append("</section>")
     parts.append(render_radar())
+    parts.append(daily_widget_html())
     for gtitle, gdesc, cards in HOME_GROUPS:
         parts.append('<section class="hgroup"><h2>%s</h2><p class="gdesc">%s</p>'
                      '<div class="cards">'
@@ -539,7 +541,9 @@ QUIZ_JS = r"""
 var QUESTIONS = BPSC_QUIZ_QUESTIONS;
 var BASE = BPSC_QUIZ_BASE;
 var box = document.getElementById("bpsc-quiz");
-var idx = 0, score = 0, answered = 0;
+var idx = 0, score = 0, answeredCount = 0;
+var picked = [];
+for(var i=0;i<QUESTIONS.length;i++){ picked.push(null); }
 function esc(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
@@ -547,25 +551,50 @@ function render(){
   box.innerHTML = "";
   if(idx >= QUESTIONS.length){ finish(); return; }
   var q = QUESTIONS[idx];
+  var done = picked[idx] !== null;
   var card = document.createElement("div");
   card.className = "quiz-card";
   var html = '<div class="quiz-progress">Question ' + (idx+1) + ' of ' + QUESTIONS.length + '</div>'
+    + '<div class="quiz-progbar" aria-hidden="true"><span style="width:'
+    + Math.round(idx / QUESTIONS.length * 100) + '%"></span></div>'
     + '<h3 class="quiz-q">' + esc(q.q) + '</h3><div class="quiz-opts">';
   for(var k=0;k<q.opts.length;k++){
-    html += '<button type="button" class="quiz-opt" data-k="' + k + '">' + esc(q.opts[k]) + '</button>';
+    html += '<button type="button" class="quiz-opt" data-k="' + k + '"'
+      + (done ? ' disabled' : '') + '>' + esc(q.opts[k]) + '</button>';
   }
-  html += '</div><div class="quiz-why" hidden></div>';
+  html += '</div><div class="quiz-why"' + (done ? '' : ' hidden') + '></div>';
+  html += '<div class="quiz-nav">'
+    + '<button type="button" class="quiz-prev"' + (idx === 0 ? ' disabled' : '') + '>\u2190 Previous</button>'
+    + '<button type="button" class="quiz-next">'
+    + (idx + 1 < QUESTIONS.length ? 'Next \u2192' : 'See my score \u2192') + '</button>'
+    + '</div>';
   card.innerHTML = html;
   box.appendChild(card);
   var btns = card.querySelectorAll(".quiz-opt");
   for(var b=0;b<btns.length;b++){
-    btns[b].addEventListener("click", (function(btn){
-      return function(){ answer(parseInt(btn.getAttribute("data-k"),10), card); };
-    })(btns[b]));
+    (function(btn){
+      btn.addEventListener("click", function(){
+        answer(parseInt(btn.getAttribute("data-k"), 10));
+      });
+    })(btns[b]);
   }
+  if(done){ paintAnswer(card); }
+  var prev = card.querySelector(".quiz-prev");
+  prev.addEventListener("click", function(){ if(idx > 0){ idx--; render(); } });
+  var next = card.querySelector(".quiz-next");
+  next.addEventListener("click", function(){ idx++; render(); });
+  updateHead();
 }
-function answer(k, card){
-  var q = QUESTIONS[idx];
+function answer(k){
+  if(picked[idx] !== null){ return; }
+  picked[idx] = k;
+  answeredCount++;
+  if(k === QUESTIONS[idx].a){ score++; }
+  paintAnswer(box.querySelector(".quiz-card"));
+  updateHead();
+}
+function paintAnswer(card){
+  var q = QUESTIONS[idx], k = picked[idx];
   var btns = card.querySelectorAll(".quiz-opt");
   for(var b=0;b<btns.length;b++){
     btns[b].disabled = true;
@@ -573,47 +602,63 @@ function answer(k, card){
   }
   var why = card.querySelector(".quiz-why");
   why.hidden = false;
-  answered++;
   if(k === q.a){
-    score++;
     why.innerHTML = "<strong>Correct.</strong> " + esc(q.why);
   } else {
     btns[k].classList.add("wrong");
     why.innerHTML = "<strong>Not quite.</strong> " + esc(q.why);
   }
-  var next = document.createElement("button");
-  next.type = "button";
-  next.className = "quiz-next";
-  next.textContent = idx + 1 < QUESTIONS.length ? "Next question \u2192" : "See my score \u2192";
-  next.addEventListener("click", function(){ idx++; render(); updateHead(); });
-  why.appendChild(next);
-  updateHead();
 }
 function updateHead(){
   var h = document.getElementById("quiz-score-line");
-  if(h){ h.textContent = "Score: " + score + " / " + answered + " answered"; }
+  if(h){ h.textContent = "Score: " + score + " / " + answeredCount + " answered"; }
 }
 function finish(){
-  var pct = Math.round(score / QUESTIONS.length * 100);
+  var total = QUESTIONS.length;
+  var pct = total ? Math.round(score / total * 100) : 0;
   var msg = pct >= 90 ? "Outstanding \u2014 Bihar Special is yours."
     : pct >= 70 ? "Strong. One more round and it is pure reflex."
     : pct >= 50 ? "Getting there \u2014 reread the rapid-fire notes and retake."
     : "Start with the Bihar GK Rapid-Fire notes, then come back and try again.";
   var card = document.createElement("div");
   card.className = "quiz-card quiz-done";
-  card.innerHTML = "<h3>You scored " + score + " / " + QUESTIONS.length + " (" + pct + "%)</h3>"
+  var html = "<h3>You scored " + score + " / " + total + " (" + pct + "%)</h3>"
     + "<p>" + msg + "</p>";
+  var wrong = [], skipped = [], i;
+  for(i=0;i<total;i++){
+    if(picked[i] === null){ skipped.push(i); }
+    else if(picked[i] !== QUESTIONS[i].a){ wrong.push(i); }
+  }
+  if(wrong.length){
+    html += "<h4>Review your mistakes</h4><ol class=\"quiz-review\">";
+    for(i=0;i<wrong.length;i++){
+      var qq = QUESTIONS[wrong[i]];
+      html += "<li><strong>" + esc(qq.q) + "</strong><br>Correct answer: "
+        + esc(qq.opts[qq.a]) + "</li>";
+    }
+    html += "</ol>";
+  }
+  if(skipped.length){
+    html += "<p class=\"muted\">Skipped " + skipped.length + " question"
+      + (skipped.length > 1 ? "s" : "") + " \u2014 no penalty, but no points either.</p>";
+  }
+  card.innerHTML = html;
   var again = document.createElement("button");
   again.type = "button";
   again.className = "quiz-next";
   again.textContent = "Try again";
-  again.addEventListener("click", function(){ idx = 0; score = 0; answered = 0; render(); updateHead(); });
+  again.addEventListener("click", function(){
+    idx = 0; score = 0; answeredCount = 0;
+    for(var j=0;j<picked.length;j++){ picked[j] = null; }
+    render(); updateHead();
+  });
   card.appendChild(again);
   var more = document.createElement("p");
   more.innerHTML = 'Keep going: <a href="' + BASE + '/bihar-gk-rapid-fire/">Bihar GK Rapid-Fire</a>'
     + ' \u00b7 <a href="' + BASE + '/pyq-analysis/">10-Year PYQ Analysis</a>';
   card.appendChild(more);
   box.appendChild(card);
+  updateHead();
 }
 var head = document.createElement("div");
 head.className = "quiz-head";
@@ -621,6 +666,77 @@ head.id = "quiz-score-line";
 head.textContent = "Score: 0 / 0 answered";
 box.parentNode.insertBefore(head, box);
 render();
+})();
+"""
+
+DAILY_JS = r"""
+(function(){
+"use strict";
+var MCQS = BPSC_DAILY_MCQS;
+var PROMPTS = BPSC_DAILY_PROMPTS;
+var BASE = BPSC_DAILY_BASE;
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function dayOfYear(){
+  var now = new Date();
+  var start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 864e5);
+}
+var doy = dayOfYear();
+var dateEl = document.getElementById("daily-date");
+if(dateEl){
+  try{
+    dateEl.textContent = new Date().toLocaleDateString("en-IN",
+      {weekday: "long", day: "numeric", month: "long"});
+  }catch(e){ dateEl.textContent = ""; }
+}
+function renderMcq(){
+  var host = document.getElementById("daily-mcq");
+  if(!host || !MCQS.length){ return; }
+  var q = MCQS[doy % MCQS.length];
+  var html = '<h3 class="daily-q">' + esc(q.q) + '</h3><div class="quiz-opts">';
+  for(var k=0;k<q.opts.length;k++){
+    html += '<button type="button" class="quiz-opt" data-k="' + k + '">' + esc(q.opts[k]) + "</button>";
+  }
+  html += '</div><div class="quiz-why" hidden></div>';
+  html += '<p class="daily-more"><a href="' + BASE + '/quiz/">Take the full 24-question quiz</a> &rarr;</p>';
+  host.innerHTML = html;
+  var btns = host.querySelectorAll(".quiz-opt");
+  for(var b=0;b<btns.length;b++){
+    (function(btn){
+      btn.addEventListener("click", function(){
+        var k = parseInt(btn.getAttribute("data-k"), 10);
+        for(var j=0;j<btns.length;j++){
+          btns[j].disabled = true;
+          if(j === q.a){ btns[j].classList.add("right"); }
+        }
+        if(k !== q.a){ btn.classList.add("wrong"); }
+        var why = host.querySelector(".quiz-why");
+        why.hidden = false;
+        why.innerHTML = (k === q.a ? "<strong>Correct.</strong> " : "<strong>Not quite.</strong> ")
+          + esc(q.why);
+      });
+    })(btns[b]);
+  }
+}
+function renderPrompt(){
+  var host = document.getElementById("daily-prompt");
+  if(!host || !PROMPTS.length){ return; }
+  var p = PROMPTS[doy % PROMPTS.length];
+  host.innerHTML = '<h3 class="daily-q">' + esc(p.q) + "</h3>"
+    + '<div class="quiz-why" hidden>' + esc(p.hint) + "</div>"
+    + '<button type="button" class="quiz-prev daily-toggle">Show approach</button>'
+    + '<p class="daily-more"><a href="' + BASE + "/" + p.link + '">Answer-writing framework</a> &rarr;</p>';
+  var toggle = host.querySelector(".daily-toggle");
+  var why = host.querySelector(".quiz-why");
+  toggle.addEventListener("click", function(){
+    why.hidden = !why.hidden;
+    toggle.textContent = why.hidden ? "Show approach" : "Hide approach";
+  });
+}
+renderMcq();
+renderPrompt();
 })();
 """
 
@@ -683,6 +799,33 @@ def quiz_page_html() -> str:
               + QUIZ_JS + "\n</script>")
     return (intro + '\n<div class="quiz" id="bpsc-quiz">'
             '<noscript><p>Enable JavaScript to take the quiz.</p></noscript></div>\n' + script)
+
+
+def daily_widget_html() -> str:
+    """Homepage 'Today's Prep': date-driven MCQ + mains writing prompt.
+
+    Question selection happens client-side by day-of-year, so the static
+    build stays fully deterministic. Borrows the daily-quiz +
+    daily-answer-writing rhythm that the big UPSC prep sites run.
+    """
+    mcqs = json.dumps(QUESTIONS, ensure_ascii=False, sort_keys=True)
+    prompts = json.dumps(PROMPTS, ensure_ascii=False, sort_keys=True)
+    script = ("<script>\nvar BPSC_DAILY_MCQS = " + mcqs + ";\n"
+              "var BPSC_DAILY_PROMPTS = " + prompts + ";\n"
+              "var BPSC_DAILY_BASE = " + json.dumps(BASE) + ";\n"
+              + DAILY_JS + "\n</scr" + "ipt>")
+    return (
+        '<section class="daily" aria-label="Today\u2019s preparation">'
+        "<h2>Today\u2019s Prep <span class=\"daily-date\" id=\"daily-date\"></span></h2>"
+        '<p class="gdesc">One MCQ and one mains writing prompt, fresh every day '
+        "\u2014 the two habits every topper swears by.</p>"
+        '<div class="daily-grid">'
+        '<div class="daily-card"><div class="daily-label">Question of the day</div>'
+        "<div id=\"daily-mcq\"><noscript><p>Enable JavaScript for today\u2019s question.</p></noscript></div></div>"
+        '<div class="daily-card"><div class="daily-label">Mains writing prompt</div>'
+        "<div id=\"daily-prompt\"><noscript><p>Enable JavaScript for today\u2019s prompt.</p></noscript></div></div>"
+        "</div>\n" + script + "\n</section>"
+    )
 
 
 def search_page_html(entries: list) -> str:

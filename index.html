@@ -235,6 +235,30 @@ a.radar-item:hover{border-color:var(--saffron);box-shadow:0 2px 10px rgba(217,11
 .quiz-next{margin-top:.8rem;background:var(--navy);color:#fff;border:0;border-radius:8px;
   padding:.6rem 1.3rem;font-size:1rem;font-weight:600;cursor:pointer}
 .quiz-next:hover{background:var(--navy-800)}
+.quiz-nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:1.1rem}
+.quiz-nav .quiz-next{margin-top:0}
+.quiz-prev{background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:.6rem 1.1rem;font-size:1rem;font-weight:600;color:var(--navy);cursor:pointer}
+.quiz-prev:hover:not(:disabled){border-color:var(--saffron)}
+.quiz-prev:disabled{opacity:.4;cursor:default}
+.quiz-progbar{height:6px;background:#eef2f7;border-radius:99px;margin:.35rem 0 1rem;overflow:hidden}
+.quiz-progbar span{display:block;height:100%;background:var(--saffron);border-radius:99px;
+  transition:width .25s ease}
+.quiz-review{margin:.6rem 0 1rem;padding-left:1.35rem}
+.quiz-review li{margin-bottom:.6rem;font-size:.93rem;line-height:1.55}
+
+/* ---------- today's prep (daily MCQ + mains prompt) ---------- */
+.daily{margin:0 0 1.6rem}
+.daily h2{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-bottom:.3rem}
+.daily-date{font-size:.85rem;font-weight:600;color:var(--muted)}
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.9rem}
+.daily-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.2rem}
+.daily-label{font-size:.72rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:#b45309;margin-bottom:.5rem}
+.daily-q{font-size:1.05rem;line-height:1.5;margin:.2rem 0 .9rem}
+.daily-more{margin:.9rem 0 0;font-size:.9rem}
+.daily-toggle{margin-top:.8rem}
+@media(max-width:720px){.daily-grid{grid-template-columns:1fr}}
 .quiz-done h3{margin-top:0}
 @media(max-width:640px){.quiz-card{padding:1.1rem}}
 
@@ -289,6 +313,83 @@ Original summaries, free forever.</p>
 <span class="radar-item"><span class="radar-label">71st CCE pattern</span><span class="radar-text">Latest verified pattern: Prelims 150 MCQs · Mains 1050 merit marks · Interview 120.</span></span>
 <a class="radar-item" href="/bpsc-pcs-prep/strategy/one-attempt-plan/"><span class="radar-label">72nd CCE</span><span class="radar-text">Notification awaited — Phase 1 of the 12-month plan is exactly what to do meanwhile.</span></a>
 <a class="radar-item" href="https://bpsc.bihar.gov.in/" target="_blank" rel="noopener"><span class="radar-label">Official word only</span><span class="radar-text">Dates and pattern changes: trust only bpsc.bihar.gov.in, never forwards.</span></a>
+</section>
+<section class="daily" aria-label="Today’s preparation"><h2>Today’s Prep <span class="daily-date" id="daily-date"></span></h2><p class="gdesc">One MCQ and one mains writing prompt, fresh every day — the two habits every topper swears by.</p><div class="daily-grid"><div class="daily-card"><div class="daily-label">Question of the day</div><div id="daily-mcq"><noscript><p>Enable JavaScript for today’s question.</p></noscript></div></div><div class="daily-card"><div class="daily-label">Mains writing prompt</div><div id="daily-prompt"><noscript><p>Enable JavaScript for today’s prompt.</p></noscript></div></div></div>
+<script>
+var BPSC_DAILY_MCQS = [{"a": 0, "opts": ["Chausa (Buxar)", "Hajipur", "Munger", "Katihar"], "q": "The Ganga enters Bihar at which place?", "why": "The Ganga enters Bihar at Chausa in Buxar district and exits at Katihar, bisecting the state west to east."}, {"a": 1, "opts": ["Son", "Kosi", "Gandak", "Punpun"], "q": "Which river is called the “Sorrow of Bihar”?", "why": "The Kosi is called the Sorrow of Bihar for its history of shifting course and devastating floods."}, {"a": 2, "opts": ["28", "33", "38", "45"], "q": "How many districts does Bihar have?", "why": "Bihar has 38 districts grouped into 9 divisions."}, {"a": 0, "opts": ["243", "233", "250", "225"], "q": "How many seats are there in the Bihar Vidhan Sabha?", "why": "The Bihar Legislative Assembly has 243 seats; the Vidhan Parishad has 75."}, {"a": 1, "opts": ["Sasaram", "Ziradei (Siwan)", "Vaishali", "Rajgir"], "q": "Dr. Rajendra Prasad, India's first President, was born in which Bihar village?", "why": "Dr. Rajendra Prasad was born at Ziradei in Siwan district, Bihar."}, {"a": 1, "opts": ["Ashoka", "Kumaragupta I", "Harshavardhana", "Dharmapala"], "q": "Nalanda University was founded during the reign of which ruler?", "why": "Nalanda was founded under the Gupta ruler Kumaragupta I; Vikramshila came later under the Pala king Dharmapala."}, {"a": 2, "opts": ["Gopala", "Devapala", "Dharmapala", "Mahipala"], "q": "Vikramshila University was established by which Pala king?", "why": "The Pala king Dharmapala founded Vikramshila in present-day Bhagalpur region."}, {"a": 2, "opts": ["Bodh Gaya", "Rajgir", "Vaishali (Kundagrama)", "Pawapuri"], "q": "Mahavira, the 24th Tirthankara, was born at which place in Bihar?", "why": "Mahavira was born at Kundagrama near Vaishali; he attained nirvana at Pawapuri."}, {"a": 2, "opts": ["Rajgir", "Vaishali", "Bodh Gaya", "Nalanda"], "q": "The Buddha attained enlightenment at which site in Bihar?", "why": "The Buddha attained enlightenment at Bodh Gaya under the Bodhi tree."}, {"a": 1, "opts": ["Vaishali", "Rajgir", "Pataliputra", "Sarnath"], "q": "The first Buddhist council was held at which place?", "why": "The first Buddhist council met at Rajgir; the second was held at Vaishali."}, {"a": 1, "opts": ["Arrah", "Sasaram", "Gaya", "Darbhanga"], "q": "Sher Shah Suri, who built the Grand Trunk Road and introduced the rupiya, belonged to which Bihar town?", "why": "Sher Shah Suri was from Sasaram; his tomb there is a landmark of Indo-Islamic architecture."}, {"a": 1, "opts": ["1757", "1764", "1772", "1782"], "q": "The Battle of Buxar, which gave the East India Company the Diwani of Bengal, was fought in which year?", "why": "Buxar (1764) was the decisive battle; the Diwani of Bengal followed in 1765."}, {"a": 1, "opts": ["Kheda", "Champaran", "Ahmedabad", "Bardoli"], "q": "Gandhi's first satyagraha in India, against the tinkathia system, was launched at which place in 1917?", "why": "The Champaran Satyagraha (1917) in Bihar was Gandhi's first satyagraha in India."}, {"a": 0, "opts": ["Jagdishpur (Arrah)", "Siwan", "Chapra", "Motihari"], "q": "Kunwar Singh, who led the 1857 revolt in Bihar past the age of 80, belonged to which place?", "why": "The octogenarian Kunwar Singh of Jagdishpur near Arrah led Bihar's 1857 uprising."}, {"a": 1, "opts": ["15 November", "22 March", "26 January", "14 April"], "q": "Bihar Diwas is celebrated on which date?", "why": "Bihar Diwas is 22 March, marking the 1912 carving of Bihar & Orissa out of Bengal."}, {"a": 2, "opts": ["15 August 1947", "26 January 1950", "15 November 2000", "1 April 1936"], "q": "Jharkhand was carved out of Bihar on which date?", "why": "Jharkhand was formed on 15 November 2000, bifurcating Bihar."}, {"a": 1, "opts": ["1905", "1916", "1936", "1950"], "q": "The Patna High Court was established in which year?", "why": "The Patna High Court was established in 1916, one of India's oldest high courts."}, {"a": 1, "opts": ["Jairamdas Daulatram", "Sri Krishna Sinha", "Anugrah Narayan Sinha", "Karpuri Thakur"], "q": "Who was the first Chief Minister of Bihar?", "why": "Sri Krishna Sinha became Bihar's first Chief Minister; Jairamdas Daulatram was the first Governor."}, {"a": 2, "opts": ["Vishnu", "Shiva", "Sun god (Surya)", "Goddess Durga"], "q": "Chhath, Bihar's defining festival, is dedicated to which deity?", "why": "Chhath is dedicated to Surya, the Sun god, observed in the month of Kartik."}, {"a": 1, "opts": ["Ganga and Son", "Ganga and Gandak", "Ganga and Kosi", "Son and Punpun"], "q": "The Sonepur Mela, among Asia's largest cattle fairs, is held at the confluence of which rivers?", "why": "Sonepur Mela (Saran) is held at the Ganga–Gandak confluence near Hajipur."}, {"a": 1, "opts": ["Sujini embroidery", "Madhubani/Mithila painting", "Tikuli art", "Khatwa applique"], "q": "Which traditional Bihar craft holds a GI tag and is painted by Maithil women?", "why": "Madhubani (Mithila) painting holds a GI tag; Sikki grass work is another GI-tagged Bihar craft."}, {"a": 0, "opts": ["Makhana (fox nut)", "Almonds", "Cashew", "Walnuts"], "q": "Bihar is India's largest producer of which of the following?", "why": "Bihar's Mithila region is India's #1 makhana producer; makhana holds a GI tag."}, {"a": 2, "opts": ["Mango", "Banana", "Litchi", "Guava"], "q": "The Muzaffarpur belt of Bihar is famous as India's top producer of which fruit?", "why": "Bihar is India's #1 litchi producer, centred on the Muzaffarpur belt."}, {"a": 2, "opts": ["Son", "Punpun", "Gandak", "Falgu"], "q": "Which of these is a north-bank, Himalayan-origin river of Bihar?", "why": "North-bank Himalayan rivers — Gandak, Burhi Gandak, Bagmati, Kosi, Mahananda — are flood-prone; Son, Punpun and Falgu are seasonal south-bank rivers."}];
+var BPSC_DAILY_PROMPTS = [{"hint": "Structure: tinkathia background -> Gandhi's method (inquiry, non-violent defiance) -> why it became the template for Kheda and Non-Cooperation.", "link": "strategy/mains-gs1/", "q": "Discuss the role of the Champaran Satyagraha (1917) in shaping Gandhi's method of mass mobilisation in India."}, {"hint": "Split your answer: Himalayan-river geography (shifting course, silt) vs governance (embankments, Kosi treaty, relief). End with a forward-looking fix.", "link": "notes/bihar-geography/", "q": "The Kosi is called the 'Sorrow of Bihar'. Examine the geographical and administrative dimensions of flood management in north Bihar."}, {"hint": "Cover: reservation for women/SC/ST, finance commission, then Bihar specifics — Panchayati Raj Act, JEEViKA linkages, and remaining gaps.", "link": "strategy/mains-gs2/", "q": "Evaluate the significance of the 73rd and 74th Constitutional Amendments for grassroots governance in Bihar."}, {"hint": "Use the problem -> potential -> policy frame: ODOP, food parks, cold chains, FPOs, and the Bihar Industrial Investment Promotion Policy.", "link": "notes/bihar-economy/", "q": "Makhana and litchi hold GI tags, yet Bihar's agro-processing lags behind. Suggest a practical roadmap for change."}, {"hint": "Draw parallels: residential scholarship, debate culture, state patronage — then contrast with today's GER and faculty shortages, and propose fixes.", "link": "strategy/mains-gs1/", "q": "Nalanda and Vikramshila were global centres of learning. What lessons do they hold for Bihar's higher education today?"}, {"hint": "Quantify the loss (minerals, industry, revenue) first, then trace the recovery path: services, agriculture, remittances, and current GSDP trends.", "link": "notes/bihar-economy/", "q": "Analyse the impact of the November 2000 bifurcation on Bihar's economy and resource base."}, {"hint": "Essay-style: ecology (sun, rivers), social equality (no priest, no idol), diaspora connect — then reflect on what it says about Bihari identity.", "link": "strategy/mains-hindi-essay/", "q": "Chhath is more than a festival — it is an expression of Bihar's cultural identity. Discuss."}, {"hint": "Riverfront pressure, drainage, traffic, heritage — organise as challenges vs the Patna Master Plan / Smart City responses, with your own suggestions.", "link": "notes/bihar-geography/", "q": "Examine the challenges of rapid urbanisation in Patna and suggest a sustainable way forward."}, {"hint": "Credit the scale (lakhs of SHGs, bank linkages, women's agency) but probe: elite capture, dependence on state support, and graduation to enterprises.", "link": "strategy/mains-gs2/", "q": "Self-help groups under JEEViKA transformed rural Bihar. Critically evaluate this claim."}, {"hint": "Anchor on the Bihar Panchayat Raj Act: 50% women's reservation, gram kachahari, then compare with the 73rd Amendment baseline.", "link": "notes/bihar-polity/", "q": "Discuss the salient features of the Panchayati Raj system in Bihar. How does it differ from the national model?"}, {"hint": "Use the numbers (median age, workforce growth), then the two scenarios: skilled + employed vs unskilled + migrating — and what decides between them.", "link": "notes/bihar-economy/", "q": "Bihar's demographic dividend: opportunity or ticking time bomb? Analyse with data."}, {"hint": "Practice the skeleton only: intro (Ganga diptych), body (irrigation/drink vs floods/arsenic), conclusion (management, not scarcity, is the issue).", "link": "strategy/mains-hindi-essay/", "q": "Draft an essay outline on: 'Water — Bihar's blessing and its curse'."}, {"hint": "Rupiya, land measurement, Grand Trunk Road, postal system — show the through-line to Mughal and even British administration.", "link": "strategy/mains-gs1/", "q": "Evaluate Sher Shah Suri's administrative reforms and their influence on later Indian governance."}, {"hint": "Push-pull structure: agrarian distress and industrial gap at home; remittance economy and social costs as consequences. End with policy levers.", "link": "strategy/mains-gs2/", "q": "Discuss the causes and consequences of large-scale migration from Bihar to other states."}];
+var BPSC_DAILY_BASE = "/bpsc-pcs-prep";
+
+(function(){
+"use strict";
+var MCQS = BPSC_DAILY_MCQS;
+var PROMPTS = BPSC_DAILY_PROMPTS;
+var BASE = BPSC_DAILY_BASE;
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function dayOfYear(){
+  var now = new Date();
+  var start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 864e5);
+}
+var doy = dayOfYear();
+var dateEl = document.getElementById("daily-date");
+if(dateEl){
+  try{
+    dateEl.textContent = new Date().toLocaleDateString("en-IN",
+      {weekday: "long", day: "numeric", month: "long"});
+  }catch(e){ dateEl.textContent = ""; }
+}
+function renderMcq(){
+  var host = document.getElementById("daily-mcq");
+  if(!host || !MCQS.length){ return; }
+  var q = MCQS[doy % MCQS.length];
+  var html = '<h3 class="daily-q">' + esc(q.q) + '</h3><div class="quiz-opts">';
+  for(var k=0;k<q.opts.length;k++){
+    html += '<button type="button" class="quiz-opt" data-k="' + k + '">' + esc(q.opts[k]) + "</button>";
+  }
+  html += '</div><div class="quiz-why" hidden></div>';
+  html += '<p class="daily-more"><a href="' + BASE + '/quiz/">Take the full 24-question quiz</a> &rarr;</p>';
+  host.innerHTML = html;
+  var btns = host.querySelectorAll(".quiz-opt");
+  for(var b=0;b<btns.length;b++){
+    (function(btn){
+      btn.addEventListener("click", function(){
+        var k = parseInt(btn.getAttribute("data-k"), 10);
+        for(var j=0;j<btns.length;j++){
+          btns[j].disabled = true;
+          if(j === q.a){ btns[j].classList.add("right"); }
+        }
+        if(k !== q.a){ btn.classList.add("wrong"); }
+        var why = host.querySelector(".quiz-why");
+        why.hidden = false;
+        why.innerHTML = (k === q.a ? "<strong>Correct.</strong> " : "<strong>Not quite.</strong> ")
+          + esc(q.why);
+      });
+    })(btns[b]);
+  }
+}
+function renderPrompt(){
+  var host = document.getElementById("daily-prompt");
+  if(!host || !PROMPTS.length){ return; }
+  var p = PROMPTS[doy % PROMPTS.length];
+  host.innerHTML = '<h3 class="daily-q">' + esc(p.q) + "</h3>"
+    + '<div class="quiz-why" hidden>' + esc(p.hint) + "</div>"
+    + '<button type="button" class="quiz-prev daily-toggle">Show approach</button>'
+    + '<p class="daily-more"><a href="' + BASE + "/" + p.link + '">Answer-writing framework</a> &rarr;</p>';
+  var toggle = host.querySelector(".daily-toggle");
+  var why = host.querySelector(".quiz-why");
+  toggle.addEventListener("click", function(){
+    why.hidden = !why.hidden;
+    toggle.textContent = why.hidden ? "Show approach" : "Hide approach";
+  });
+}
+renderMcq();
+renderPrompt();
+})();
+
+</script>
 </section>
 <section class="hgroup"><h2>Learn</h2><p class="gdesc">Know the battlefield first — then build the arsenal.</p><div class="cards">
 <a class="card" href="/bpsc-pcs-prep/syllabus">
