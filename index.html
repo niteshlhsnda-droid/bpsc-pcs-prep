@@ -204,6 +204,51 @@ nav.main a.active{background:rgba(245,158,11,.16);color:var(--saffron-bright)}
 @media(max-width:420px){
   .stats{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ---------- exam radar strip (homepage) ---------- */
+.radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.6rem;margin:0 0 1.4rem}
+.radar-item{display:block;background:#fff;border:1px solid var(--line);border-left:4px solid var(--saffron);
+  border-radius:10px;padding:.7rem .95rem;color:inherit;text-decoration:none}
+a.radar-item:hover{border-color:var(--saffron);box-shadow:0 2px 10px rgba(217,119,6,.18)}
+.radar-label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:#b45309;margin-bottom:.25rem}
+.radar-text{font-size:.92rem;color:var(--ink)}
+
+/* external cards get an outbound arrow */
+.card-ext h3::after{content:" \2197";color:#b45309;font-size:.85em}
+
+/* ---------- interactive quiz ---------- */
+.quiz-head{font-weight:700;color:var(--navy);margin:.6rem 0 .8rem}
+.quiz-card{background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:1.4rem;max-width:660px;box-shadow:0 2px 12px rgba(15,42,90,.06)}
+.quiz-progress{font-size:.8rem;color:var(--muted);margin-bottom:.4rem;font-weight:600}
+.quiz-q{margin:.2rem 0 1rem;font-size:1.22rem;line-height:1.45}
+.quiz-opts{display:grid;gap:.6rem}
+.quiz-opt{text-align:left;background:#f8fafc;border:1px solid var(--line);border-radius:8px;
+  padding:.7rem .95rem;font-size:1rem;cursor:pointer;color:var(--ink)}
+.quiz-opt:hover:not(:disabled){border-color:var(--saffron);background:#fff}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.right{background:#dcfce7;border-color:#16a34a;font-weight:600}
+.quiz-opt.wrong{background:#fee2e2;border-color:#dc2626}
+.quiz-why{margin-top:1rem;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;
+  padding:.85rem 1rem;font-size:.95rem;line-height:1.55}
+.quiz-next{margin-top:.8rem;background:var(--navy);color:#fff;border:0;border-radius:8px;
+  padding:.6rem 1.3rem;font-size:1rem;font-weight:600;cursor:pointer}
+.quiz-next:hover{background:var(--navy-800)}
+.quiz-done h3{margin-top:0}
+@media(max-width:640px){.quiz-card{padding:1.1rem}}
+
+/* ---------- site search ---------- */
+.search-wrap{max-width:680px}
+.search-input{width:100%;font-size:1.05rem;padding:.75rem 1rem;border:2px solid var(--line);
+  border-radius:10px;margin:.8rem 0 1.2rem}
+.search-input:focus{outline:none;border-color:var(--saffron)}
+.search-hit{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:.7rem 1rem;margin-bottom:.6rem;text-decoration:none;color:inherit}
+.search-hit:hover{border-color:var(--saffron)}
+.search-hit strong{display:block;color:var(--navy)}
+.search-hit span{font-size:.82rem;color:var(--muted)}
+.muted{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -215,6 +260,7 @@ nav.main a.active{background:rgba(245,158,11,.16);color:var(--saffron-bright)}
       <a href="/bpsc-pcs-prep/syllabus/" >Syllabus</a>
       <a href="/bpsc-pcs-prep/notes/" >Notes</a>
       <a href="/bpsc-pcs-prep/bihar-gk-rapid-fire/" >Bihar GK</a>
+      <a href="/bpsc-pcs-prep/quiz/" >Quiz</a>
       <a href="/bpsc-pcs-prep/books/" >Books</a>
       <a href="/bpsc-pcs-prep/pyq/" >PYQ</a>
       <a href="/bpsc-pcs-prep/strategy/" >Study Plan</a>
@@ -239,44 +285,69 @@ Original summaries, free forever.</p>
 <div class="stat"><span class="stat-num">120</span><span class="stat-label">Interview marks</span></div>
 <div class="stat"><span class="stat-num">⅓</span><span class="stat-label">Negative marking · Prelims only</span></div>
 </section>
-<section class="hgroup"><h2>Learn</h2><p class="gdesc">Know the battlefield first.</p><div class="cards">
-<a class="card" href="/bpsc-pcs-prep/syllabus/">
+<section class="radar" aria-label="Exam status">
+<span class="radar-item"><span class="radar-label">71st CCE pattern</span><span class="radar-text">Latest verified pattern: Prelims 150 MCQs · Mains 1050 merit marks · Interview 120.</span></span>
+<a class="radar-item" href="/bpsc-pcs-prep/strategy/one-attempt-plan/"><span class="radar-label">72nd CCE</span><span class="radar-text">Notification awaited — Phase 1 of the 12-month plan is exactly what to do meanwhile.</span></a>
+<a class="radar-item" href="https://bpsc.bihar.gov.in/" target="_blank" rel="noopener"><span class="radar-label">Official word only</span><span class="radar-text">Dates and pattern changes: trust only bpsc.bihar.gov.in, never forwards.</span></a>
+</section>
+<section class="hgroup"><h2>Learn</h2><p class="gdesc">Know the battlefield first — then build the arsenal.</p><div class="cards">
+<a class="card" href="/bpsc-pcs-prep/syllabus">
 <h3>Syllabus</h3>
 <p>Prelims + Mains, topic-wise — exactly what BPSC asks.</p>
 </a>
-<a class="card" href="/bpsc-pcs-prep/notes/">
+<a class="card" href="/bpsc-pcs-prep/notes">
 <h3>Notes</h3>
 <p>Short, original, Bihar-first: history, geography, polity, economy + the GS core.</p>
 </a>
+<a class="card" href="/bpsc-pcs-prep/videos">
+<h3>Video Lessons &amp; Channels</h3>
+<p>The best BPSC YouTube channels, curated — and how to use video without drowning in it.</p>
+</a>
+<a class="card card-ext" href="https://niteshlhsnda-droid.github.io/current-affairs-exams/" target="_blank" rel="noopener">
+<h3>Daily Current Affairs</h3>
+<p>Exam-ready daily current affairs from our sister site — same discipline, same zero-fluff rule.</p>
+</a>
 </div></section>
-<section class="hgroup"><h2>Practice</h2><p class="gdesc">Train on real questions, with the right books.</p><div class="cards">
-<a class="card" href="/bpsc-pcs-prep/pyq-analysis/">
+<section class="hgroup"><h2>Practice</h2><p class="gdesc">Marks come from recall, not re-reading.</p><div class="cards">
+<a class="card" href="/bpsc-pcs-prep/quiz">
+<h3>Bihar GK Quiz</h3>
+<p>24 original MCQs with instant explanations. Retake weekly until it’s reflex.</p>
+</a>
+<a class="card" href="/bpsc-pcs-prep/pyq-analysis">
 <h3>10-Year PYQ Analysis</h3>
-<p>Which topics the last decade of papers actually rewards — weightage &amp; trends.</p>
+<p>What the last decade of papers actually rewards — weightage &amp; trends.</p>
 </a>
-<a class="card" href="/bpsc-pcs-prep/books/">
-<h3>Books &amp; Question Banks</h3>
-<p>One shelf, no more: PYQ compilations, practice sets, Bihar books.</p>
-</a>
-<a class="card" href="/bpsc-pcs-prep/bihar-gk-rapid-fire/">
-<h3>Bihar GK Rapid-Fire</h3>
-<p>High-yield one-liners: firsts, rivers, GI tags, dances, CMs.</p>
-</a>
-<a class="card" href="/bpsc-pcs-prep/pyq/strategy/">
+<a class="card" href="/bpsc-pcs-prep/pyq/strategy">
 <h3>PYQ Strategy</h3>
 <p>How to mine previous-year papers the smart way.</p>
 </a>
+<a class="card" href="/bpsc-pcs-prep/notes/prelims-rapid-fire">
+<h3>Rapid-Fire One-Liners</h3>
+<p>High-yield facts for Bihar Special, Science and Current Affairs.</p>
+</a>
+<a class="card" href="/bpsc-pcs-prep/bihar-gk-rapid-fire">
+<h3>Bihar GK Rapid-Fire</h3>
+<p>High-yield one-liners: firsts, rivers, GI tags, dances, CMs.</p>
+</a>
+<a class="card" href="/bpsc-pcs-prep/books">
+<h3>Books &amp; Question Banks</h3>
+<p>One shelf, no more: PYQ compilations, practice sets, Bihar books.</p>
+</a>
 </div></section>
 <section class="hgroup"><h2>Plan</h2><p class="gdesc">One attempt. One timetable.</p><div class="cards">
-<a class="card" href="/bpsc-pcs-prep/strategy/one-attempt-plan/">
+<a class="card" href="/bpsc-pcs-prep/strategy/one-attempt-plan">
 <h3>12-Month One-Attempt Plan</h3>
 <p>The full timetable — day one to interview.</p>
 </a>
-<a class="card" href="/bpsc-pcs-prep/strategy/mains-answer-writing/">
+<a class="card" href="/bpsc-pcs-prep/strategy/mains-answer-writing">
 <h3>Mains Answer-Writing</h3>
 <p>Frameworks, diagrams and model answers for GS-I, GS-II, Hindi and Essay.</p>
 </a>
-<a class="card" href="/bpsc-pcs-prep/strategy/memorization/">
+<a class="card" href="/bpsc-pcs-prep/strategy/topper-methods">
+<h3>What Toppers Do Differently</h3>
+<p>Consensus habits from BPSC topper interviews — distilled.</p>
+</a>
+<a class="card" href="/bpsc-pcs-prep/strategy/memorization">
 <h3>Memorization System</h3>
 <p>Active recall + spaced repetition that makes one attempt enough.</p>
 </a>
@@ -298,6 +369,11 @@ Original summaries, free forever.</p>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>BPSC PCS Prep</strong> — original study summaries, free forever.</p>
+    <p><a href="/bpsc-pcs-prep/quiz/">Quiz</a> ·
+    <a href="/bpsc-pcs-prep/videos/">Video channels</a> ·
+    <a href="/bpsc-pcs-prep/search/">Search</a> ·
+    <a href="https://niteshlhsnda-droid.github.io/current-affairs-exams/" target="_blank" rel="noopener">Current Affairs for Exams &#8599;</a> ·
+    <a href="https://bpsc.bihar.gov.in/" target="_blank" rel="noopener">Official BPSC site &#8599;</a></p>
     <p>Content licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> ·
     <a href="https://github.com/niteshlhsnda-droid/bpsc-pcs-prep">GitHub repo</a> ·
     built with <a href="https://github.com/niteshlhsnda-droid/bpsc-pcs-prep/tree/main/sitegen">sitegen</a> (Python).

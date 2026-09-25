@@ -71,8 +71,12 @@ GENERATED = [
     "strategy/prelims-vs-mains/index.html",
     "syllabus/prelims-blueprint/index.html",
     "notes/prelims-rapid-fire/index.html",
+    "quiz/index.html",
+    "search/index.html",
+    "videos/index.html",
 ]
 SOURCES = ["booklist.md", "README.md", "home.md",
+           "videos.md",
            "syllabus/prelims-blueprint.md",
            "strategy/mains-answer-writing.md",
            "strategy/mains-gs1.md",
@@ -84,6 +88,7 @@ SOURCES = ["booklist.md", "README.md", "home.md",
 TOOLING = [
     "sitegen/build.py",
     "sitegen/publish.py",
+    "sitegen/quiz_questions.py",
     "sitegen/README.md",
     "sitegen/templates/base.html",
 ]

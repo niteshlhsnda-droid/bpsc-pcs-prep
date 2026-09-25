@@ -25,11 +25,14 @@ import argparse
 import difflib
 import filecmp
 import html
+import json
 import os
 import re
 import shutil
 import sys
 import tempfile
+
+from quiz_questions import QUESTIONS
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES = os.path.join(REPO, "sitegen", "templates")
@@ -40,6 +43,7 @@ BASE = "/bpsc-pcs-prep"  # project-site path on GitHub Pages
 # ---------------------------------------------------------------------------
 PAGES = [
     ("home.md", "index.html", "home"),
+    ("videos.md", "videos/index.html", ""),
     ("booklist.md", "books/index.html", "books"),
     ("syllabus/prelims.md", "syllabus/prelims/index.html", "syllabus"),
     ("syllabus/mains.md", "syllabus/mains/index.html", "syllabus"),
@@ -138,31 +142,74 @@ HOME_STATS = [
 
 # (group title, group blurb, [(card title, url rel to BASE, blurb)])
 HOME_GROUPS = [
-    ("Learn", "Know the battlefield first.", [
+    ("Learn", "Know the battlefield first \u2014 then build the arsenal.", [
         ("Syllabus", "syllabus/",
-         "Prelims + Mains, topic-wise — exactly what BPSC asks."),
+         "Prelims + Mains, topic-wise \u2014 exactly what BPSC asks."),
         ("Notes", "notes/",
          "Short, original, Bihar-first: history, geography, polity, economy + the GS core."),
+        ("Video Lessons & Channels", "videos/",
+         "The best BPSC YouTube channels, curated \u2014 and how to use video without drowning in it."),
+        ("Daily Current Affairs", "https://niteshlhsnda-droid.github.io/current-affairs-exams/",
+         "Exam-ready daily current affairs from our sister site \u2014 same discipline, same zero-fluff rule."),
     ]),
-    ("Practice", "Train on real questions, with the right books.", [
+    ("Practice", "Marks come from recall, not re-reading.", [
+        ("Bihar GK Quiz", "quiz/",
+         "24 original MCQs with instant explanations. Retake weekly until it\u2019s reflex."),
         ("10-Year PYQ Analysis", "pyq-analysis/",
-         "Which topics the last decade of papers actually rewards — weightage & trends."),
-        ("Books & Question Banks", "books/",
-         "One shelf, no more: PYQ compilations, practice sets, Bihar books."),
-        ("Bihar GK Rapid-Fire", "bihar-gk-rapid-fire/",
-         "High-yield one-liners: firsts, rivers, GI tags, dances, CMs."),
+         "What the last decade of papers actually rewards \u2014 weightage & trends."),
         ("PYQ Strategy", "pyq/strategy/",
          "How to mine previous-year papers the smart way."),
+        ("Rapid-Fire One-Liners", "notes/prelims-rapid-fire/",
+         "High-yield facts for Bihar Special, Science and Current Affairs."),
+        ("Bihar GK Rapid-Fire", "bihar-gk-rapid-fire/",
+         "High-yield one-liners: firsts, rivers, GI tags, dances, CMs."),
+        ("Books & Question Banks", "books/",
+         "One shelf, no more: PYQ compilations, practice sets, Bihar books."),
     ]),
     ("Plan", "One attempt. One timetable.", [
         ("12-Month One-Attempt Plan", "strategy/one-attempt-plan/",
-         "The full timetable — day one to interview."),
+         "The full timetable \u2014 day one to interview."),
         ("Mains Answer-Writing", "strategy/mains-answer-writing/",
          "Frameworks, diagrams and model answers for GS-I, GS-II, Hindi and Essay."),
+        ("What Toppers Do Differently", "strategy/topper-methods/",
+         "Consensus habits from BPSC topper interviews \u2014 distilled."),
         ("Memorization System", "strategy/memorization/",
          "Active recall + spaced repetition that makes one attempt enough."),
     ]),
 ]
+
+# Exam radar: a live strip on the homepage answering "what's the exam status?".
+# The third item links the official BPSC site \u2014 the only trustworthy source for dates.
+HOME_RADAR = [
+    ("71st CCE pattern", "Latest verified pattern: Prelims 150 MCQs \u00b7 Mains 1050 merit marks \u00b7 Interview 120.", None),
+    ("72nd CCE", "Notification awaited \u2014 Phase 1 of the 12-month plan is exactly what to do meanwhile.", "strategy/one-attempt-plan/"),
+    ("Official word only", "Dates and pattern changes: trust only bpsc.bihar.gov.in, never forwards.", "https://bpsc.bihar.gov.in/"),
+]
+
+
+def render_radar() -> str:
+    parts = ['<section class="radar" aria-label="Exam status">']
+    for label, text, link in HOME_RADAR:
+        inner = ('<span class="radar-label">%s</span><span class="radar-text">%s</span>'
+                 % (html.escape(label), html.escape(text)))
+        if link:
+            if link.startswith("http"):
+                parts.append('<a class="radar-item" href="%s" target="_blank" rel="noopener">%s</a>'
+                             % (html.escape(link, quote=True), inner))
+            else:
+                parts.append('<a class="radar-item" href="%s/%s">%s</a>' % (BASE, link, inner))
+        else:
+            parts.append('<span class="radar-item">%s</span>' % inner)
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
+def card_open(curl: str) -> str:
+    """Open an <a class="card"> tag, supporting external (http) card targets."""
+    curl = curl.strip()
+    if curl.startswith("http"):
+        return '<a class="card card-ext" href="%s" target="_blank" rel="noopener">' % html.escape(curl, quote=True)
+    return '<a class="card" href="%s/%s">' % (BASE, curl.strip("/"))
 
 # One-line descriptions shown under section index headings.
 SECTION_DESC = {
@@ -416,7 +463,7 @@ def load_template() -> str:
         return fh.read()
 
 
-NAV_KEYS = ["home", "syllabus", "notes", "bihargk", "books", "pyq", "strategy"]
+NAV_KEYS = ["home", "syllabus", "notes", "bihargk", "quiz", "books", "pyq", "strategy"]
 
 
 def render_page(title: str, body_html: str, nav: str, template: str) -> str:
@@ -436,8 +483,8 @@ def section_index_html(sec: str, title: str, cards) -> str:
         out.append('<p class="section-desc">%s</p>' % html.escape(desc))
     out.append('<div class="cards">')
     for ctitle, curl, blurb in cards:
-        out.append('<a class="card" href="%s/%s/">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
-                   % (BASE, curl.strip("/"), html.escape(ctitle), html.escape(blurb)))
+        out.append('%s\n<h3>%s</h3>\n<p>%s</p>\n</a>'
+                   % (card_open(curl), html.escape(ctitle), html.escape(blurb)))
     out.append("</div>")
     return "\n".join(out)
 
@@ -464,16 +511,192 @@ def render_home(body_html: str) -> str:
                      '<span class="stat-label">%s</span></div>'
                      % (html.escape(num), html.escape(label)))
     parts.append("</section>")
+    parts.append(render_radar())
     for gtitle, gdesc, cards in HOME_GROUPS:
         parts.append('<section class="hgroup"><h2>%s</h2><p class="gdesc">%s</p>'
                      '<div class="cards">'
                      % (html.escape(gtitle), html.escape(gdesc)))
         for ctitle, curl, blurb in cards:
-            parts.append('<a class="card" href="%s/%s">\n<h3>%s</h3>\n<p>%s</p>\n</a>'
-                         % (BASE, curl, html.escape(ctitle), html.escape(blurb)))
+            parts.append('%s\n<h3>%s</h3>\n<p>%s</p>\n</a>'
+                         % (card_open(curl), html.escape(ctitle), html.escape(blurb)))
         parts.append("</div></section>")
     parts.append(body_html)
     return "\n".join(parts)
+
+
+# ---------------------------------------------------------------------------
+# Interactive quiz page + site search page
+# ---------------------------------------------------------------------------
+NAV_LABELS = {
+    "home": "Home", "syllabus": "Syllabus", "notes": "Notes",
+    "bihargk": "Bihar GK", "quiz": "Quiz", "books": "Books",
+    "pyq": "Previous-Year Questions", "strategy": "Study Strategy", "": "",
+}
+
+QUIZ_JS = r"""
+(function(){
+"use strict";
+var QUESTIONS = BPSC_QUIZ_QUESTIONS;
+var BASE = BPSC_QUIZ_BASE;
+var box = document.getElementById("bpsc-quiz");
+var idx = 0, score = 0, answered = 0;
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function render(){
+  box.innerHTML = "";
+  if(idx >= QUESTIONS.length){ finish(); return; }
+  var q = QUESTIONS[idx];
+  var card = document.createElement("div");
+  card.className = "quiz-card";
+  var html = '<div class="quiz-progress">Question ' + (idx+1) + ' of ' + QUESTIONS.length + '</div>'
+    + '<h3 class="quiz-q">' + esc(q.q) + '</h3><div class="quiz-opts">';
+  for(var k=0;k<q.opts.length;k++){
+    html += '<button type="button" class="quiz-opt" data-k="' + k + '">' + esc(q.opts[k]) + '</button>';
+  }
+  html += '</div><div class="quiz-why" hidden></div>';
+  card.innerHTML = html;
+  box.appendChild(card);
+  var btns = card.querySelectorAll(".quiz-opt");
+  for(var b=0;b<btns.length;b++){
+    btns[b].addEventListener("click", (function(btn){
+      return function(){ answer(parseInt(btn.getAttribute("data-k"),10), card); };
+    })(btns[b]));
+  }
+}
+function answer(k, card){
+  var q = QUESTIONS[idx];
+  var btns = card.querySelectorAll(".quiz-opt");
+  for(var b=0;b<btns.length;b++){
+    btns[b].disabled = true;
+    if(b === q.a){ btns[b].classList.add("right"); }
+  }
+  var why = card.querySelector(".quiz-why");
+  why.hidden = false;
+  answered++;
+  if(k === q.a){
+    score++;
+    why.innerHTML = "<strong>Correct.</strong> " + esc(q.why);
+  } else {
+    btns[k].classList.add("wrong");
+    why.innerHTML = "<strong>Not quite.</strong> " + esc(q.why);
+  }
+  var next = document.createElement("button");
+  next.type = "button";
+  next.className = "quiz-next";
+  next.textContent = idx + 1 < QUESTIONS.length ? "Next question \u2192" : "See my score \u2192";
+  next.addEventListener("click", function(){ idx++; render(); updateHead(); });
+  why.appendChild(next);
+  updateHead();
+}
+function updateHead(){
+  var h = document.getElementById("quiz-score-line");
+  if(h){ h.textContent = "Score: " + score + " / " + answered + " answered"; }
+}
+function finish(){
+  var pct = Math.round(score / QUESTIONS.length * 100);
+  var msg = pct >= 90 ? "Outstanding \u2014 Bihar Special is yours."
+    : pct >= 70 ? "Strong. One more round and it is pure reflex."
+    : pct >= 50 ? "Getting there \u2014 reread the rapid-fire notes and retake."
+    : "Start with the Bihar GK Rapid-Fire notes, then come back and try again.";
+  var card = document.createElement("div");
+  card.className = "quiz-card quiz-done";
+  card.innerHTML = "<h3>You scored " + score + " / " + QUESTIONS.length + " (" + pct + "%)</h3>"
+    + "<p>" + msg + "</p>";
+  var again = document.createElement("button");
+  again.type = "button";
+  again.className = "quiz-next";
+  again.textContent = "Try again";
+  again.addEventListener("click", function(){ idx = 0; score = 0; answered = 0; render(); updateHead(); });
+  card.appendChild(again);
+  var more = document.createElement("p");
+  more.innerHTML = 'Keep going: <a href="' + BASE + '/bihar-gk-rapid-fire/">Bihar GK Rapid-Fire</a>'
+    + ' \u00b7 <a href="' + BASE + '/pyq-analysis/">10-Year PYQ Analysis</a>';
+  card.appendChild(more);
+  box.appendChild(card);
+}
+var head = document.createElement("div");
+head.className = "quiz-head";
+head.id = "quiz-score-line";
+head.textContent = "Score: 0 / 0 answered";
+box.parentNode.insertBefore(head, box);
+render();
+})();
+"""
+
+SEARCH_JS = r"""
+(function(){
+"use strict";
+var INDEX = BPSC_SEARCH_INDEX;
+var input = document.getElementById("site-search-input");
+var results = document.getElementById("site-search-results");
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function query0(){
+  var m = window.location.search.match(/[?&]q=([^&#]*)/);
+  return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+}
+function render(){
+  var q = input.value.trim().toLowerCase();
+  if(!q){
+    results.innerHTML = '<p class="muted">Type above to search every page on this site.</p>';
+    return;
+  }
+  var hits = [];
+  for(var i=0;i<INDEX.length && hits.length<40;i++){
+    var e = INDEX[i];
+    if((e.t + " " + e.k).toLowerCase().indexOf(q) >= 0){ hits.push(e); }
+  }
+  if(!hits.length){
+    results.innerHTML = '<p class="muted">No matches. Try "bihar", "mains", "pyq" or "syllabus".</p>';
+    return;
+  }
+  var html = "";
+  for(var j=0;j<hits.length;j++){
+    var e = hits[j];
+    html += '<a class="search-hit" href="' + e.u + '"><strong>' + esc(e.t) + '</strong>'
+      + (e.k ? '<span>' + esc(e.k) + '</span>' : '') + '</a>';
+  }
+  results.innerHTML = html;
+}
+input.addEventListener("input", render);
+input.value = query0();
+render();
+input.focus();
+})();
+"""
+
+
+def quiz_page_html() -> str:
+    """Interactive Bihar GK quiz: embedded original question bank + vanilla JS."""
+    data = json.dumps(QUESTIONS, ensure_ascii=False, sort_keys=True)
+    intro = (
+        "<h1>Bihar GK Quiz \u2014 24 MCQs</h1>"
+        '<p class="section-desc">The fastest way to find holes in your Bihar Special. '
+        "Answer, read the one-line explanation, move on \u2014 retake weekly until it\u2019s reflex. "
+        'Every question is drawn from this site\u2019s <a href="%s/bihar-gk-rapid-fire/">Bihar GK Rapid-Fire notes</a>.</p>'
+        % BASE
+    )
+    script = ("<script>\nvar BPSC_QUIZ_QUESTIONS = " + data + ";\n"
+              "var BPSC_QUIZ_BASE = " + json.dumps(BASE) + ";\n"
+              + QUIZ_JS + "\n</script>")
+    return (intro + '\n<div class="quiz" id="bpsc-quiz">'
+            '<noscript><p>Enable JavaScript to take the quiz.</p></noscript></div>\n' + script)
+
+
+def search_page_html(entries: list) -> str:
+    """Site search page: index embedded as JSON, filtered client-side."""
+    data = json.dumps(entries, ensure_ascii=False, sort_keys=True)
+    intro = ('<h1>Search this site</h1>'
+             '<div class="search-wrap">'
+             '<label class="muted" for="site-search-input">Search notes, strategies, quizzes and more</label>'
+             '<input class="search-input" id="site-search-input" type="search" autocomplete="off" '
+             'placeholder="e.g. mains answer writing, kosi, 71st CCE">'
+             '<div id="site-search-results"></div>'
+             '</div>')
+    script = "<script>\nvar BPSC_SEARCH_INDEX = " + data + ";\n" + SEARCH_JS + "\n</script>"
+    return intro + script
 
 
 def build(out_dir: str) -> list:
@@ -489,6 +712,7 @@ def build(out_dir: str) -> list:
         written.append(rel)
 
     # Markdown pages
+    search_entries = []
     for src, out, nav in PAGES:
         with open(os.path.join(REPO, src), encoding="utf-8") as fh:
             md = fh.read()
@@ -503,16 +727,36 @@ def build(out_dir: str) -> list:
             sec_label, sec_url = CRUMB_SECTIONS[nav]
             body = crumb_html([(sec_label, sec_url)], title) + "\n" + body
         else:
-            # Top-level pages (Books, Bihar GK): Home › page.
+            # Top-level pages (Books, Bihar GK, Videos, Search): Home › page.
             body = crumb_html([], title) + "\n" + body
         page = render_page(title, body, nav, template)
         write(out, page.encode("utf-8"))
+        if out == "index.html":
+            surl = BASE + "/"
+        else:
+            surl = BASE + "/" + out.rsplit("/index.html", 1)[0].rstrip("/") + "/"
+        search_entries.append({"t": title, "u": surl, "k": NAV_LABELS.get(nav, nav)})
 
     # Section index pages
     for sec, title, nav, cards in SECTIONS:
         body = section_index_html(sec, title, cards)
         page = render_page(title, crumb_html([], title) + "\n" + body, nav, template)
         write(sec + "/index.html", page.encode("utf-8"))
+        search_entries.append({"t": title, "u": BASE + "/" + sec + "/",
+                               "k": NAV_LABELS.get(nav, nav)})
+
+    # Interactive quiz page (original question bank, JS-graded)
+    qtitle = "Bihar GK Quiz \u2014 24 MCQs"
+    qbody = crumb_html([], "Bihar GK Quiz") + "\n" + quiz_page_html()
+    write("quiz/index.html",
+          render_page(qtitle, qbody, "quiz", template).encode("utf-8"))
+    search_entries.append({"t": qtitle, "u": BASE + "/quiz/", "k": "Quiz"})
+
+    # Search page: index of every registered page, embedded as JSON
+    sentries = sorted(search_entries, key=lambda e: (e["t"].lower(), e["u"]))
+    sbody = crumb_html([], "Search") + "\n" + search_page_html(sentries)
+    write("search/index.html",
+          render_page("Search this site", sbody, "", template).encode("utf-8"))
 
     # Verbatim copies
     for src, out in VERBATIM:
