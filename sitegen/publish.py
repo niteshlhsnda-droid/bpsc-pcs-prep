@@ -74,9 +74,14 @@ GENERATED = [
     "quiz/index.html",
     "search/index.html",
     "videos/index.html",
+    "app/index.html",
+    "sitemap.xml",
+    "robots.txt",
+    "og-image.png",
 ]
 SOURCES = ["booklist.md", "README.md", "home.md",
            "videos.md",
+           "app.md",
            "syllabus/prelims-blueprint.md",
            "strategy/mains-answer-writing.md",
            "strategy/mains-gs1.md",
@@ -156,9 +161,9 @@ def main() -> int:
     print(f"tree {tree['sha'][:7]}")
 
     commit = api("post", f"{base}/git/commits", {
-        "message": ("Quiz navigation fix (always-visible Previous/Next, progress bar, "
-                    "mistake review) + homepage 'Today's Prep' daily MCQ and mains "
-                    "writing prompt (UPSC-site benchmark pass)"),
+        "message": ("Web visibility upgrade: OG/Twitter meta + per-page canonical URLs, "
+                    "PostHog + cookie-consent banner, sitemap.xml + robots.txt, "
+                    "onboarding section, /app/ coming-soon page, og-image.png"),
         "tree": tree["sha"],
         "parents": [head_sha],
     })

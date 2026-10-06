@@ -6,6 +6,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{TITLE}} · BPSC PCS Prep</title>
 <meta name="description" content="BPSC Combined Competitive Examination preparation: syllabus, notes, books, question banks, PYQ strategy and analysis.">
+<meta name="theme-color" content="#0a1428">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BPSC PCS Prep">
+<meta property="og:title" content="{{TITLE}} · BPSC PCS Prep">
+<meta property="og:description" content="BPSC Combined Competitive Examination preparation: syllabus, notes, books, question banks, PYQ strategy and analysis.">
+<meta property="og:url" content="{{PAGE_URL}}">
+<meta property="og:image" content="https://niteshlhsnda-droid.github.io/bpsc-pcs-prep/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{TITLE}} · BPSC PCS Prep">
+<meta name="twitter:description" content="BPSC Combined Competitive Examination preparation: syllabus, notes, books, question banks, PYQ strategy and analysis.">
+<meta name="twitter:image" content="https://niteshlhsnda-droid.github.io/bpsc-pcs-prep/og-image.png">
+<script>
+(function(){
+  var POSTHOG_KEY="__POSTHOG_KEY__";
+  var POSTHOG_HOST="__POSTHOG_HOST__";
+  if(!POSTHOG_HOST||POSTHOG_HOST.indexOf("__POSTHOG_HOST__")===0){POSTHOG_HOST="https://us.i.posthog.com";}
+  function loadPH(){
+    if(window.posthog||!POSTHOG_KEY||POSTHOG_KEY.indexOf("__POSTHOG_KEY__")===0)return;
+    var s=document.createElement("script");s.async=true;
+    s.src=POSTHOG_HOST.replace(/\/$/,"")+"/static/array.js";
+    s.onload=function(){try{posthog.init(POSTHOG_KEY,{api_host:POSTHOG_HOST,capture_pageview:true,autocapture:true});}catch(e){}};
+    document.head.appendChild(s);
+  }
+  try{if(localStorage.getItem("cc-consent")==="accepted"){loadPH();}}catch(e){}
+  window.__loadPostHog=loadPH;
+})();
+</script>
 <style>
 /* ============ BPSC PCS Prep — design system ============
    Deep navy (exam-serious) + saffron/amber (energy, Bihar warmth)
@@ -273,6 +300,17 @@ a.radar-item:hover{border-color:var(--saffron);box-shadow:0 2px 10px rgba(217,11
 .search-hit strong{display:block;color:var(--navy)}
 .search-hit span{font-size:.82rem;color:var(--muted)}
 .muted{color:var(--muted)}
+
+/* ---------- cookie-consent banner (small, fixed bottom, non-blocking) ---------- */
+#cc-banner{position:fixed;left:1rem;bottom:1rem;z-index:200;max-width:24rem;
+  background:var(--navy-900);border:1px solid var(--saffron);border-radius:12px;
+  color:#fff;font-size:.82rem;line-height:1.5;padding:.9rem 1.05rem;
+  box-shadow:0 8px 28px rgba(10,20,40,.45);display:flex;flex-direction:column;gap:.7rem}
+#cc-banner[hidden]{display:none}
+#cc-banner .cc-actions{display:flex;gap:.6rem}
+#cc-banner button{font:inherit;font-weight:700;border-radius:9px;padding:.5rem 1.1rem;
+  cursor:pointer;border:1px solid var(--saffron);background:transparent;color:#fff}
+#cc-banner button#cc-accept{background:var(--saffron);color:var(--navy-950)}
 </style>
 </head>
 <body>
@@ -308,5 +346,25 @@ a.radar-item:hover{border-color:var(--saffron);box-shadow:0 2px 10px rgba(217,11
     Always verify exam details against the official BPSC notification.</p>
   </div>
 </footer>
+<div id="cc-banner" hidden>
+<span>We use optional analytics cookies (PostHog) to understand visits and improve the site. No ads, no cross-site tracking.</span>
+<span class="cc-actions"><button id="cc-accept" type="button">Accept</button><button id="cc-decline" type="button">Decline</button></span>
+</div>
+<script>
+(function(){
+  var key="cc-consent";
+  function show(){var b=document.getElementById("cc-banner");if(b)b.hidden=false;}
+  function choose(v){
+    try{localStorage.setItem(key,v);}catch(e){}
+    var b=document.getElementById("cc-banner");if(b)b.hidden=true;
+    if(v==="accepted"&&typeof window.__loadPostHog==="function"){window.__loadPostHog();}
+  }
+  try{if(localStorage.getItem(key))return;}catch(e){return;}
+  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",show);}
+  else{show();}
+  document.getElementById("cc-accept").addEventListener("click",function(){choose("accepted");});
+  document.getElementById("cc-decline").addEventListener("click",function(){choose("declined");});
+})();
+</script>
 </body>
 </html>

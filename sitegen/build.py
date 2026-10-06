@@ -38,6 +38,8 @@ from mains_prompts import PROMPTS
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES = os.path.join(REPO, "sitegen", "templates")
 BASE = "/bpsc-pcs-prep"  # project-site path on GitHub Pages
+SITE_ABS = "https://niteshlhsnda-droid.github.io/bpsc-pcs-prep"
+SITE_ORIGIN = "https://niteshlhsnda-droid.github.io"
 
 # ---------------------------------------------------------------------------
 # Page registry: (markdown source, output path, nav section)
@@ -70,6 +72,7 @@ PAGES = [
     ("strategy/mains-hindi-essay.md", "strategy/mains-hindi-essay/index.html", "strategy"),
     ("strategy/topper-methods.md", "strategy/topper-methods/index.html", "strategy"),
     ("strategy/prelims-vs-mains.md", "strategy/prelims-vs-mains/index.html", "strategy"),
+    ("app.md", "app/index.html", ""),
 ]
 
 # Section index pages generated from card data: (section dir, title, nav, cards)
@@ -467,9 +470,11 @@ def load_template() -> str:
 NAV_KEYS = ["home", "syllabus", "notes", "bihargk", "quiz", "books", "pyq", "strategy"]
 
 
-def render_page(title: str, body_html: str, nav: str, template: str) -> str:
+def render_page(title: str, body_html: str, nav: str, template: str,
+                page_url: str | None = None) -> str:
     page = template.replace("{{TITLE}}", html.escape(title, quote=False))
     page = page.replace("{{BASE}}", BASE)
+    page = page.replace("{{PAGE_URL}}", page_url or (SITE_ABS + "/"))
     page = page.replace("{{CONTENT}}", body_html)
     for key in NAV_KEYS:
         page = page.replace("{{NAV_" + key.upper() + "}}",
@@ -872,18 +877,19 @@ def build(out_dir: str) -> list:
         else:
             # Top-level pages (Books, Bihar GK, Videos, Search): Home › page.
             body = crumb_html([], title) + "\n" + body
-        page = render_page(title, body, nav, template)
-        write(out, page.encode("utf-8"))
         if out == "index.html":
             surl = BASE + "/"
         else:
             surl = BASE + "/" + out.rsplit("/index.html", 1)[0].rstrip("/") + "/"
+        page = render_page(title, body, nav, template, page_url=SITE_ORIGIN + surl)
+        write(out, page.encode("utf-8"))
         search_entries.append({"t": title, "u": surl, "k": NAV_LABELS.get(nav, nav)})
 
     # Section index pages
     for sec, title, nav, cards in SECTIONS:
         body = section_index_html(sec, title, cards)
-        page = render_page(title, crumb_html([], title) + "\n" + body, nav, template)
+        page = render_page(title, crumb_html([], title) + "\n" + body, nav,
+                           template, page_url=SITE_ABS + "/" + sec + "/")
         write(sec + "/index.html", page.encode("utf-8"))
         search_entries.append({"t": title, "u": BASE + "/" + sec + "/",
                                "k": NAV_LABELS.get(nav, nav)})
@@ -892,14 +898,16 @@ def build(out_dir: str) -> list:
     qtitle = "Bihar GK Quiz \u2014 24 MCQs"
     qbody = crumb_html([], "Bihar GK Quiz") + "\n" + quiz_page_html()
     write("quiz/index.html",
-          render_page(qtitle, qbody, "quiz", template).encode("utf-8"))
+          render_page(qtitle, qbody, "quiz", template,
+                      page_url=SITE_ABS + "/quiz/").encode("utf-8"))
     search_entries.append({"t": qtitle, "u": BASE + "/quiz/", "k": "Quiz"})
 
     # Search page: index of every registered page, embedded as JSON
     sentries = sorted(search_entries, key=lambda e: (e["t"].lower(), e["u"]))
     sbody = crumb_html([], "Search") + "\n" + search_page_html(sentries)
     write("search/index.html",
-          render_page("Search this site", sbody, "", template).encode("utf-8"))
+          render_page("Search this site", sbody, "", template,
+                      page_url=SITE_ABS + "/search/").encode("utf-8"))
 
     # Verbatim copies
     for src, out in VERBATIM:
@@ -921,6 +929,30 @@ def build(out_dir: str) -> list:
 
     # Disable Jekyll so Pages serves the static files as-is
     write(".nojekyll", b"")
+
+    # sitemap.xml + robots.txt (absolute per-page URLs; deterministic order)
+    def _sm_path(out: str) -> str:
+        if out == "index.html":
+            return "/"
+        assert out.endswith("/index.html")
+        return "/" + out[: -len("/index.html")] + "/"
+    sm_paths = []
+    for _src, out, _nav in PAGES:
+        sm_paths.append(_sm_path(out))
+    for sec, _t, _n, _cards in SECTIONS:
+        sm_paths.append("/" + sec + "/")
+    sm_paths.append("/quiz/")
+    sm_paths.append("/search/")
+    for _src, out in VERBATIM:
+        sm_paths.append(_sm_path(out))
+    urls = "\n".join(
+        '  <url><loc>%s%s</loc></url>' % (SITE_ABS, p)
+        for p in sorted(set(sm_paths)))
+    write("sitemap.xml", ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                          + urls + '\n</urlset>\n').encode("utf-8"))
+    write("robots.txt", ("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n"
+                         % SITE_ABS).encode("utf-8"))
 
     return sorted(written)
 
